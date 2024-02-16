@@ -21,6 +21,8 @@ import MailIcon from '@mui/icons-material/Mail';
 import AdbIcon from '@mui/icons-material/Adb';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import Dashboard from './dashboard/Dashboard';
+import BasicCard from '../common/BasicCard/BasicCard';
+import { Grid } from '@mui/material';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -90,7 +92,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const Admin = () => {
   const theme = useTheme();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -133,7 +135,7 @@ const Admin = () => {
                 textDecoration: 'none',
             }}
             >
-            
+                              
             </Typography>
         </Toolbar>
       </AppBar>
@@ -194,7 +196,13 @@ const Admin = () => {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-              <Dashboard />
+        <Grid sx={{mb: 3}} spacing={2}>
+          <Grid container xs={4}>
+            <BasicCard message={"Welcome back!"} name={"FullName"} />    
+          </Grid>
+        </Grid>
+             
+              {/* <Dashboard /> */}
       </Box>
     </Box>
   );
