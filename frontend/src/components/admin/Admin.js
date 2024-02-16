@@ -23,6 +23,7 @@ import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import Dashboard from './dashboard/Dashboard';
 import BasicCard from '../common/BasicCard/BasicCard';
 import { Grid } from '@mui/material';
+import MainButton from '../common/MainButton/MainButton';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -196,13 +197,32 @@ const Admin = () => {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <Grid sx={{mb: 3}} spacing={2}>
-          <Grid container xs={4}>
+        <Grid container sx={{mb: 3}} spacing={2}>
+          <Grid item xs={4}>
             <BasicCard message={"Welcome back!"} name={"FullName"} />    
+          </Grid>
+        </Grid>
+        <Grid container sx={{mb: 3}} spacing={2}>
+          <Grid item xs={12} sm={6} lg={3}>
+            <MainButton appName={"Document Management System"} appDescription={`We are a community of developers prepping for coding interviews,
+        participate, chat with others and get better at interviewing.`}/>   
+          </Grid>
+          <Grid item xs={12} sm={6} lg={3}>
+            <MainButton appName={"QRCode Generator"} appDescription={`We are a community of developers prepping for coding interviews,
+        participate, chat with others and get better at interviewing.`}/>      
+          </Grid>
+          <Grid item xs={12} sm={6} lg={3}>
+            <MainButton appName={"Agents Portal"} appDescription={`We are a community of developers prepping for coding interviews,
+        participate, chat with others and get better at interviewing.`}/>    
+          </Grid>
+          <Grid item xs={12} sm={6} lg={3}>
+            <MainButton appName={"Clearance Processing"} appDescription={`We are a community of developers prepping for coding interviews,
+        participate, chat with others and get better at interviewing.`}/>      
           </Grid>
         </Grid>
              
               {/* <Dashboard /> */}
+
       </Box>
     </Box>
   );
