@@ -10,6 +10,9 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Fade from '@mui/material/Fade';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
@@ -24,6 +27,9 @@ import Dashboard from './dashboard/Dashboard';
 import BasicCard from '../common/BasicCard/BasicCard';
 import { Grid } from '@mui/material';
 import MainButton from '../common/MainButton/MainButton';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -91,7 +97,18 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
+
+
+
 const Admin = () => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openAnchor = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const theme = useTheme();
   const [open, setOpen] = useState();
 
@@ -120,7 +137,7 @@ const Admin = () => {
           >
             <MenuIcon />
           </IconButton>
-            <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+            {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
             <Typography
             variant="h6"
             noWrap
@@ -147,6 +164,65 @@ const Admin = () => {
           </IconButton>
         </DrawerHeader>
         <Divider />
+        <List sx={{ 
+          backgroundColor: 'rgb(20, 157, 204)',  
+          display: open ? 'flex' : 'none',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column',
+          minHeight: 150,
+          color: 'rgb(255, 255, 255)',
+          gap: 1
+          }}>
+              <Avatar
+              alt="Remy Sharp"
+              src="/static/images/avatar/1.jpg"
+              sx={{ width: 100, height: 100 }}
+              />
+              {/* <ListItemIcon
+                sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                    color: 'rgb(255, 255, 255)'
+                }}
+              >
+                <DashboardRoundedIcon />
+              </ListItemIcon> */}
+              <Button
+                id="fade-button"
+                aria-controls={openAnchor ? 'fade-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={openAnchor ? 'true' : undefined}
+                onClick={handleClick}
+                sx={{color:'rgb(255, 255, 255)'}}
+                endIcon={<ArrowDropDownIcon />}
+              >
+                Philip Cristobal
+              </Button>
+              <Menu
+                id="fade-menu"
+                MenuListProps={{
+                  'aria-labelledby': 'fade-button',
+                }}
+                anchorEl={anchorEl}
+                open={openAnchor}
+                onClose={handleClose}
+                TransitionComponent={Fade}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'center',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'center',
+                }}
+              >
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={handleClose}>Logout</MenuItem>
+              </Menu>
+        </List>
         <List sx={{ backgroundColor: 'rgb(35, 86, 181)'}}>
         <ListItemButton
           sx={{
