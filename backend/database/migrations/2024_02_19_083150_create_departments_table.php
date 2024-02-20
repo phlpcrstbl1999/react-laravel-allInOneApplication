@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('departments', function (Blueprint $table) {
             $table->id();
-            $table->bigIncrements('dept_id');
+            $table->increments('dept_id');
             $table->string('dept_name');
             $table->timestamps();
         });
