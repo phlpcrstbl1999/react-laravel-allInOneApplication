@@ -3,9 +3,19 @@ import { Button, Link, InputLabel, Input, InputAdornment, IconButton, FormContro
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import './Login.css';
+import BasicSnackbar from '../../common/Snackbar/BasicSnackbar';
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const [snackbarState, setSnackbarState] = useState(false);
+
+  const handleLogin = () => {
+    setSnackbarState(true);
+  };
+  
+  const handleClose = () => {
+    setSnackbarState(false);
+  };
   return (
     <div className='login-container'>
       <div className='login-left'>
@@ -33,8 +43,17 @@ const Login = () => {
               </InputAdornment>
             }/>
       </FormControl>
-      <Button variant="contained" className='animate__animated animate__bounceInRight'>Submit</Button>
+      <Button variant="contained" className='animate__animated animate__bounceInRight' onClick={handleLogin}>Submit</Button>
       <p>Don't have an account yet? <Link href="/authentication/register" underline="hover">Sign up</Link></p>
+      <BasicSnackbar
+        vertical={"top"} 
+        horizontal={"right"} 
+        open={snackbarState} 
+        close={handleClose} 
+        severityAlert={"error"} 
+        variantAlert={"filled"} 
+        message={"Invalid Credentials"}
+      />
       </div>
     </div>
   )

@@ -39,8 +39,15 @@ const Register = () => {
       </FormControl>
       <Button variant="contained" className='animate__animated animate__bounceInRight' onClick={handleVerifyEmail}>Verify</Button>
       <p>Already have an account? <Link href="/authentication" underline="hover">Sign in</Link></p>
- 
-      <BasicSnackbar vertical={"top"} horizontal={"center"} open={snackbarState} close={handleClose} message={"Try"}/>
+      <BasicSnackbar 
+        vertical={"top"} 
+        horizontal={"right"} 
+        open={snackbarState} 
+        close={handleClose} 
+        severityAlert={"error"} 
+        variantAlert={"filled"} 
+        message={"Try"}
+      />
       </div>
     </div>
   )
