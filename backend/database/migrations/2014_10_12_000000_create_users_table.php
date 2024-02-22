@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('user_lname');
             $table->string('email')->unique();
             $table->bigInteger('dept_id');
+            $table->string('active_tag');
             $table->string('date_registered');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
