@@ -1,14 +1,31 @@
 import { React, useState, useMemo } from 'react'
 import { Button, Link, InputLabel, Input, FormControl, FormHelperText, useFormControl } from '@mui/material';
+import axios from 'axios';
 import './Register.css';
 import BasicSnackbar from '../../common/Snackbar/BasicSnackbar';
 const Register = () => {  
   const [snackbarState, setSnackbarState] = useState(false);
-
-  const handleVerifyEmail = () => {
-    setSnackbarState(true);
+  const [email, setEmail] = useState({
+    email: ''
+  });
+  const handleVerifyEmail = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/api/verify', {
+        params: email
+      });
+      const data = response.data;
+      setSnackbarState(true);
+      console.log(data);
+      console.log('success');
+    } catch(e) {
+      console.log(email);
+    }
+    
   };
-  
+  const handleEmail = (e) => {
+    setEmail({ email: e.target.value });
+  }
+
   const handleClose = () => {
     setSnackbarState(false);
   };
@@ -34,10 +51,10 @@ const Register = () => {
       <h1 className='animate__animated animate__bounceInRight'>Sign Up</h1>
       <FormControl sx={{ m: 1, width: '65%' }} variant="outlined" className='animate__animated animate__bounceInLeft' error={false}>
       <InputLabel htmlFor="standard-adornment-email">Email*</InputLabel>
-            <Input id="standard-adornment-email"/>
+            <Input type="email" id="standard-adornment-email" onChange={handleEmail}/>
             <MyFormHelperText />
       </FormControl>
-      <Button variant="contained" className='animate__animated animate__bounceInRight' onClick={handleVerifyEmail}>Verify</Button>
+      <Button variant="contained" className='animate__animated animate__bounceInRight' name='email' onClick={handleVerifyEmail}>Verify</Button>
       <p>Already have an account? <Link href="/authentication" underline="hover">Sign in</Link></p>
       <BasicSnackbar 
         vertical={"top"} 
