@@ -3,6 +3,7 @@ import { Button, Link, InputLabel, Input, FormControl, FormHelperText, useFormCo
 import axios from 'axios';
 import './Register.css';
 import BasicSnackbar from '../../common/Snackbar/BasicSnackbar';
+import BasicProgress from '../../common/BasicProgress/BasicProgress';
 const Register = () => {  
   const [snackbar, setSnackbar] = useState({
     open: false,
@@ -15,7 +16,9 @@ const Register = () => {
   const [email, setEmail] = useState({
     email: ''
   });
+  const [loading, setLoading] = useState(false);
   const handleVerifyEmail = async () => {
+    setLoading(true);
     try {
       const response = await axios.get('http://localhost:8000/api/verify', {
         params: email
@@ -28,6 +31,8 @@ const Register = () => {
       console.log('success');
     } catch(e) {
       setSnackbar({...snackbar, open: true, severityAlert: 'error', message:  e.response.data.message});
+    } finally {
+      setLoading(false);
     }
     
   };
@@ -54,7 +59,10 @@ const Register = () => {
   }
   return (
     <div className='register-container'>
+           {loading === true ? <BasicProgress /> : null} 
+
       <div className='register-left'>
+
       </div>
       <div className='register-right'>
       <h1 className='animate__animated animate__bounceInRight'>Sign Up</h1>
