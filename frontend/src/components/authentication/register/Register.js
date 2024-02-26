@@ -4,7 +4,14 @@ import axios from 'axios';
 import './Register.css';
 import BasicSnackbar from '../../common/Snackbar/BasicSnackbar';
 const Register = () => {  
-  const [snackbarState, setSnackbarState] = useState(false);
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    vertical: 'top',
+    horizontal: 'right', 
+    severityAlert: 'success',
+    variantAlert: 'filled',
+    message: ''
+  });
   const [email, setEmail] = useState({
     email: ''
   });
@@ -14,11 +21,13 @@ const Register = () => {
         params: email
       });
       const data = response.data;
-      setSnackbarState(true);
+      const message = data.message;
+
+      setSnackbar({...snackbar, open: true, severityAlert: 'success', message: message});
       console.log(data);
       console.log('success');
     } catch(e) {
-      console.log(email);
+      setSnackbar({...snackbar, open: true, severityAlert: 'error', message:  e.response.data.message});
     }
     
   };
@@ -27,7 +36,7 @@ const Register = () => {
   }
 
   const handleClose = () => {
-    setSnackbarState(false);
+    setSnackbar({...snackbar, open: false});
   };
   
   function MyFormHelperText() {
@@ -57,13 +66,13 @@ const Register = () => {
       <Button variant="contained" className='animate__animated animate__bounceInRight' name='email' onClick={handleVerifyEmail}>Verify</Button>
       <p>Already have an account? <Link href="/authentication" underline="hover">Sign in</Link></p>
       <BasicSnackbar 
-        vertical={"top"} 
-        horizontal={"right"} 
-        open={snackbarState} 
+        vertical={snackbar.vertical} 
+        horizontal={snackbar.horizontal} 
+        open={snackbar.open} 
         close={handleClose} 
-        severityAlert={"error"} 
-        variantAlert={"filled"} 
-        message={"Try"}
+        severityAlert={snackbar.severityAlert} 
+        variantAlert={snackbar.variantAlert} 
+        message={snackbar.message}
       />
       </div>
     </div>
