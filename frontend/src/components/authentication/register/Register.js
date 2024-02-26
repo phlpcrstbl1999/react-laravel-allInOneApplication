@@ -8,7 +8,7 @@ const Register = () => {
     open: false,
     vertical: 'top',
     horizontal: 'right', 
-    severityAlert: 'success',
+    severityAlert: '',
     variantAlert: 'filled',
     message: ''
   });
