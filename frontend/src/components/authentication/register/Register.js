@@ -18,14 +18,17 @@ const Register = () => {
   });
   const [loading, setLoading] = useState(false);
   const handleVerifyEmail = async () => {
+    if(email.email === '' || email.email === null) {
+      setSnackbar({...snackbar, open: true, severityAlert: 'error', message: 'Email address is required'});
+    } else {
     setLoading(true);
+    console.log(email);
     try {
       const response = await axios.get('http://localhost:8000/api/verify', {
         params: email
       });
       const data = response.data;
       const message = data.message;
-
       setSnackbar({...snackbar, open: true, severityAlert: 'success', message: message});
       console.log(data);
       console.log('success');
@@ -34,7 +37,7 @@ const Register = () => {
     } finally {
       setLoading(false);
     }
-    
+  }
   };
   const handleEmail = (e) => {
     setEmail({ email: e.target.value });
@@ -68,7 +71,7 @@ const Register = () => {
       <h1 className='animate__animated animate__bounceInRight'>Sign Up</h1>
       <FormControl sx={{ m: 1, width: '65%' }} variant="outlined" className='animate__animated animate__bounceInLeft' error={false}>
       <InputLabel htmlFor="standard-adornment-email">Email*</InputLabel>
-            <Input type="email" id="standard-adornment-email" onChange={handleEmail}/>
+            <Input type="email" id="standard-adornment-email" onChange={handleEmail} />
             <MyFormHelperText />
       </FormControl>
       <Button variant="contained" className='animate__animated animate__bounceInRight' name='email' onClick={handleVerifyEmail}>Verify</Button>
