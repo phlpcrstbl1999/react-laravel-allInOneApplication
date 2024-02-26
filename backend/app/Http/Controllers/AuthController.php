@@ -20,10 +20,15 @@ class AuthController extends Controller
             $activeTag = $user->active_tag;
         }
         // $userNames = $users->pluck('user_fname');
-        if($activeTag == 'Y' ? $message = 'User already verified' : $message = '');
+        if($activeTag == 'Y') {
+            return response()->json([
+                'message' => 'User already verified',
+            ], 403);
+        }
+
         return response()->json([
             'message' => 'Users found with the provided email.',
-            'user_names' => $message,
+            'user_names' => $name,
         ], 200);
     }
 }
