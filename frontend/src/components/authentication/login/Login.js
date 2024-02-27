@@ -1,5 +1,5 @@
-import { React, useState } from 'react'
-import { Button, Link, InputLabel, Input, InputAdornment, IconButton, FormControl } from '@mui/material';
+import { React, useState, useMemo } from 'react'
+import { Button, Link, InputLabel, Input, InputAdornment, IconButton, FormControl, useFormControl, FormHelperText } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import './Login.css';
@@ -7,15 +7,60 @@ import BasicSnackbar from '../../common/Snackbar/BasicSnackbar';
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const [snackbarState, setSnackbarState] = useState(false);
-
+  const [credential, setCredential] = useState({
+    email: '',
+    password: ''
+  });
+  const handleCredential = (e) => {
+    setCredential({ ...credential, [e.target.name]: e.target.value });
+  }
   const handleLogin = () => {
-    setSnackbarState(true);
+    if(credential.email === '') {
+      setSnackbar({...snackbar, open: true, severityAlert: 'error', message: 'Email address is required'});
+    }else if(credential.password === '') {
+      setSnackbar({...snackbar, open: true, severityAlert: 'error', message: 'Password is required'});
+    }else {
+      console.log(credential);
+    }
   };
-  
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    vertical: 'top',
+    horizontal: 'right', 
+    severityAlert: '',
+    variantAlert: 'filled',
+    message: ''
+  });
   const handleClose = () => {
-    setSnackbarState(false);
+    setSnackbar({...snackbar, open: false});
   };
+  const EmailTextHelper = () =>{
+    const { focused } = useFormControl() || {};
+  
+    const helperText = useMemo(() => {
+      if (focused) {
+        return 'Please enter your company email';
+      }
+      
+      return '';
+    }, [focused]);
+  
+    return <FormHelperText>{helperText}</FormHelperText>;
+  }
+  const PasswordTextHelper = () =>{
+    const { focused } = useFormControl() || {};
+    
+    const helperText = useMemo(() => {
+      if (focused) {
+        return 'Please enter your password';
+      }
+      
+      return '';
+    }, [focused]);
+    
+    return <FormHelperText>{helperText}</FormHelperText>;
+  }
+
   return (
     <div className='login-container'>
       <div className='login-left'>
@@ -23,8 +68,9 @@ const Login = () => {
       <div className='login-right'>
       <h1 className='animate__animated animate__bounceInLeft'>Sign In</h1>
     <FormControl sx={{ m: 1, width: '65%' }} variant="outlined" className='animate__animated animate__bounceInRight'> 
-     <InputLabel htmlFor="standard-adornment-username">User Name</InputLabel>
-          <Input id="standard-adornment-username"/>
+     <InputLabel htmlFor="standard-adornment-username">Email</InputLabel>
+          <Input id="standard-adornment-username" name="email" onChange={handleCredential}/>
+          <EmailTextHelper />
     </FormControl>
 
      <FormControl sx={{ m: 1, width: '65%' }} variant="outlined" className='animate__animated animate__bounceInLeft'>
@@ -41,18 +87,19 @@ const Login = () => {
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
-            }/>
+            }  name="password" onChange={handleCredential}/>
+            <PasswordTextHelper />
       </FormControl>
       <Button variant="contained" className='animate__animated animate__bounceInRight' onClick={handleLogin}>Submit</Button>
       <p>Don't have an account yet? <Link href="/authentication/register" underline="hover">Sign up</Link></p>
       <BasicSnackbar
-        vertical={"top"} 
-        horizontal={"right"} 
-        open={snackbarState} 
+        vertical={snackbar.vertical} 
+        horizontal={snackbar.horizontal} 
+        open={snackbar.open} 
         close={handleClose} 
-        severityAlert={"error"} 
-        variantAlert={"filled"} 
-        message={"Invalid Credentials"}
+        severityAlert={snackbar.severityAlert} 
+        variantAlert={snackbar.variantAlert} 
+        message={snackbar.message}
       />
       </div>
     </div>

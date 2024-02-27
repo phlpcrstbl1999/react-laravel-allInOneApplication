@@ -72,7 +72,7 @@ const Register = () => {
       <div className='register-right'>
       <h1 className='animate__animated animate__bounceInRight'>Sign Up</h1>
       <FormControl sx={{ m: 1, width: '65%' }} variant="outlined" className='animate__animated animate__bounceInLeft' error={false}>
-      <InputLabel htmlFor="standard-adornment-email">Email*</InputLabel>
+      <InputLabel htmlFor="standard-adornment-email">Email</InputLabel>
             <Input type="email" id="standard-adornment-email" onChange={handleEmail} />
             <EmailTextHelper />
       </FormControl>
