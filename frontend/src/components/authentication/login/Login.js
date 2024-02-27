@@ -17,10 +17,12 @@ const Login = () => {
   const handleLogin = () => {
     if(credential.email === '') {
       setSnackbar({...snackbar, open: true, severityAlert: 'error', message: 'Email address is required'});
-    }else if(credential.password === '') {
+    } else if(credential.password === '') {
       setSnackbar({...snackbar, open: true, severityAlert: 'error', message: 'Password is required'});
-    }else {
-      console.log(credential);
+    } else if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(credential.email)) {
+      setSnackbar({...snackbar, open: true, severityAlert: 'warning', message: 'Invalid email address'});
+    } else {
+      alert(credential.email);
     }
   };
   const [snackbar, setSnackbar] = useState({
@@ -41,7 +43,7 @@ const Login = () => {
       if (focused) {
         return 'Please enter your company email';
       }
-      
+
       return '';
     }, [focused]);
   
