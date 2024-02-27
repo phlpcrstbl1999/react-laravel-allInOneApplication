@@ -13,19 +13,21 @@ const Register = () => {
     variantAlert: 'filled',
     message: ''
   });
-  const [email, setEmail] = useState({
+  const [credential, setCredential] = useState({
     email: ''
   });
   const [loading, setLoading] = useState(false);
   const handleVerifyEmail = async () => {
-    if(email.email === '' || email.email === null) {
+    if(credential.email === '' || credential.email === null) {
       setSnackbar({...snackbar, open: true, severityAlert: 'error', message: 'Email address is required'});
+    } else if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(credential.email)) {
+      setSnackbar({...snackbar, open: true, severityAlert: 'error', message: 'Invalid email address'});
     } else {
     setLoading(true);
-    console.log(email);
+    console.log(credential);
     try {
       const response = await axios.get('http://localhost:8000/api/verify', {
-        params: email
+        params: credential
       });
       const data = response.data;
       const message = data.message;
@@ -40,14 +42,14 @@ const Register = () => {
   }
   };
   const handleEmail = (e) => {
-    setEmail({ email: e.target.value });
+    setCredential({ email: e.target.value });
   }
 
   const handleClose = () => {
     setSnackbar({...snackbar, open: false});
   };
   
-  function MyFormHelperText() {
+  const EmailTextHelper = () =>{
     const { focused } = useFormControl() || {};
   
     const helperText = useMemo(() => {
@@ -72,7 +74,7 @@ const Register = () => {
       <FormControl sx={{ m: 1, width: '65%' }} variant="outlined" className='animate__animated animate__bounceInLeft' error={false}>
       <InputLabel htmlFor="standard-adornment-email">Email*</InputLabel>
             <Input type="email" id="standard-adornment-email" onChange={handleEmail} />
-            <MyFormHelperText />
+            <EmailTextHelper />
       </FormControl>
       <Button variant="contained" className='animate__animated animate__bounceInRight' name='email' onClick={handleVerifyEmail}>Verify</Button>
       <p>Already have an account? <Link href="/authentication" underline="hover">Sign in</Link></p>
