@@ -3,34 +3,42 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
     public function verify(Request $request) {
-        $users = User::where('email', $request->email)->get();
+        try {
+            $users = User::where('email', $request->email)->get();
 
-        if ($users->isEmpty()) {
+            if ($users->isEmpty()) {
+                return response()->json([
+                    'message' => 'No user found with the provided email.',
+                ], 404);
+            }
+
+            foreach($users as $user) {
+                $name = $user->user_mname;
+                $activeTag = $user->active_tag;
+            }
+            // $userNames = $users->pluck('user_fname');
+            if($activeTag == 'Y') {
+                return response()->json([
+                    'message' => 'User already verified',
+                ], 403);
+            }
+
             return response()->json([
-                'message' => 'No user found with the provided email.',
-            ], 404);
-        }
-
-        foreach($users as $user) {
-            $name = $user->user_mname;
-            $activeTag = $user->active_tag;
-        }
-        // $userNames = $users->pluck('user_fname');
-        if($activeTag == 'Y') {
+                'message' => 'Users found with the provided email.',
+                'user_names' => $name,
+            ], 200);
+        }catch(ValidationException $e) {
             return response()->json([
-                'message' => 'User already verified',
-            ], 403);
+                'message' => 'Verification failed',
+                'errors' => $e,
+            ], 400);
         }
-
-        return response()->json([
-            'message' => 'Users found with the provided email.',
-            'user_names' => $name,
-        ], 200);
     }
 
     public function login(Request $request) {
