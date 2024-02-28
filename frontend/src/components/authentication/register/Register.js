@@ -26,7 +26,7 @@ const Register = () => {
     setLoading(true);
     console.log(credential);
     try {
-      const response = await axios.get('http://localhost:8000/api/verify', {
+      const response = await axios.get('http://localhost:8000/api/auth/verify', {
         params: credential
       });
       const data = response.data;
