@@ -26,14 +26,11 @@ const Register = () => {
     setLoading(true);
     console.log(credential);
     try {
-      const response = await axios.get('http://localhost:8000/api/auth/verify', {
-        params: credential
-      });
+      const response = await axios.post('http://localhost:8000/api/auth/verify', credential);
       const data = response.data;
       const message = data.message;
       setSnackbar({...snackbar, open: true, severityAlert: 'success', message: message});
       console.log(data);
-      console.log('success');
     } catch(e) {
       setSnackbar({...snackbar, open: true, severityAlert: 'error', message:  e.response.data.message});
     } finally {

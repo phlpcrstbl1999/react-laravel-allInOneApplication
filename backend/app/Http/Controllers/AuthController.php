@@ -37,7 +37,7 @@ class AuthController extends Controller
             return response()->json([
                 'message' => 'Verification failed',
                 'errors' => $e,
-            ], 400);
+            ], 500);
         }
     }
 
