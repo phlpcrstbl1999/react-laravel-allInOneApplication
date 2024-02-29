@@ -22,7 +22,7 @@ const Login = () => {
     } else if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(credential.email)) {
       setSnackbar({...snackbar, open: true, severityAlert: 'warning', message: 'Invalid email address'});
     } else {
-      alert(credential.email);
+      setSnackbar({...snackbar, open: true, severityAlert: 'sucess', message: 'Success'});
     }
   };
   const [snackbar, setSnackbar] = useState({
