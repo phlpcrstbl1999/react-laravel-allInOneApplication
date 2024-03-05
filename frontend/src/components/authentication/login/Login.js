@@ -1,4 +1,5 @@
-import { React, useState, useMemo } from 'react'
+import { React, useState, useMemo } from 'react';
+import axios from 'axios';
 import { Button, Link, InputLabel, Input, InputAdornment, IconButton, FormControl, useFormControl, FormHelperText } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -14,7 +15,7 @@ const Login = () => {
   const handleCredential = (e) => {
     setCredential({ ...credential, [e.target.name]: e.target.value });
   }
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if(credential.email === '') {
       setSnackbar({...snackbar, open: true, severityAlert: 'error', message: 'Email address is required'});
     } else if(credential.password === '') {
@@ -22,7 +23,17 @@ const Login = () => {
     } else if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(credential.email)) {
       setSnackbar({...snackbar, open: true, severityAlert: 'warning', message: 'Invalid email address'});
     } else {
-      setSnackbar({...snackbar, open: true, severityAlert: 'sucess', message: 'Success'});
+      console.log(credential);
+      try {
+        const response = await axios.post('http://localhost:8000/api/auth/login', credential);
+        const data = response.data;
+        const message = data.message;
+        setSnackbar({...snackbar, open: true, severityAlert: 'success', message: message});
+        console.log(data);
+      } catch(e) {
+        setSnackbar({...snackbar, open: true, severityAlert: 'error', message:  e.response.data.message});
+      } finally {
+      }
     }
   };
   const [snackbar, setSnackbar] = useState({
