@@ -5,6 +5,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import './Login.css';
 import BasicSnackbar from '../../common/Snackbar/BasicSnackbar';
+import BasicProgress from '../../common/BasicProgress/BasicProgress';
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -15,7 +16,8 @@ const Login = () => {
   const handleCredential = (e) => {
     setCredential({ ...credential, [e.target.name]: e.target.value });
   }
-  const handleLogin = async () => {
+  const [loading, setLoading] = useState(false);
+  const handleLogin = async() => {
     if(credential.email === '') {
       setSnackbar({...snackbar, open: true, severityAlert: 'error', message: 'Email address is required'});
     } else if(credential.password === '') {
@@ -23,6 +25,7 @@ const Login = () => {
     } else if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(credential.email)) {
       setSnackbar({...snackbar, open: true, severityAlert: 'warning', message: 'Invalid email address'});
     } else {
+      setLoading(true);
       console.log(credential);
       try {
         const response = await axios.post('http://localhost:8000/api/auth/login', credential);
@@ -33,6 +36,7 @@ const Login = () => {
       } catch(e) {
         setSnackbar({...snackbar, open: true, severityAlert: 'error', message:  e.response.data.message});
       } finally {
+        setLoading(false);
       }
     }
   };
@@ -76,6 +80,7 @@ const Login = () => {
 
   return (
     <div className='login-container'>
+       {loading === true ? <BasicProgress /> : null} 
       <div className='login-left'>
       </div>
       <div className='login-right'>
