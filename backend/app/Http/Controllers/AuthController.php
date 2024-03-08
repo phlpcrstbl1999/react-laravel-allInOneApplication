@@ -5,33 +5,48 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EmailVerification;
 class AuthController extends Controller
 {
     public function verify(Request $request) {
+        $verificationToken = Str::random(32);
         try {
-            $users = User::where('email', $request->email)->get();
+            $user = User::where('email', $request->email)->first();
 
-            if ($users->isEmpty()) {
+            if (!$user) {
                 return response()->json([
                     'message' => 'No user found with the provided email.',
                 ], 404);
             }
 
-            foreach($users as $user) {
-                $name = $user->user_mname;
-                $activeTag = $user->active_tag;
-            }
+            $name = $user->user_mname;
+            $activeTag = $user->active_tag;
+            $email = $user->email;
+
             // $userNames = $users->pluck('user_fname');
             if($activeTag == 'Y') {
                 return response()->json([
                     'message' => 'User already verified',
                 ], 403);
+            }else {
+                $user->verification_token = $verificationToken;
+                $user->save();
+                // try {
+                //     Mail::to($email)->send(new EmailVerification($verificationToken));
+                //     return response()->json(['message' => 'Verification email sent'], 200);
+                // } catch (ValidationException $e) {
+                //     return response()->json(['message' => $email], 500);
+                // }
+                return response()->json([
+                    'message' => $verificationToken,
+                ], 200);
             }
 
             return response()->json([
                 'message' => 'Users found with the provided email.',
-                'user_names' => $name,
+                'user_names' => $email,
             ], 200);
         }catch(ValidationException $e) {
             return response()->json([
