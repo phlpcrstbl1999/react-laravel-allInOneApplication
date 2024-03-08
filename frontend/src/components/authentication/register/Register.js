@@ -1,4 +1,4 @@
-import { React, useState, useMemo } from 'react'
+import { React, useState, useMemo, useEffect } from 'react'
 import { Button, Link, InputLabel, Input, FormControl, FormHelperText, useFormControl } from '@mui/material';
 import axios from 'axios';
 import './Register.css';
@@ -59,6 +59,16 @@ const Register = () => {
   
     return <FormHelperText>{helperText}</FormHelperText>;
   }
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const token = searchParams.get('token');
+    if(token !== null) {
+      console.log(token); 
+    }
+    
+}, []);
+
   return (
     <div className='register-container'>
            {loading === true ? <BasicProgress /> : null} 

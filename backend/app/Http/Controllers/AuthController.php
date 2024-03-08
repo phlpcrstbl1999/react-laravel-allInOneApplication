@@ -58,11 +58,12 @@ class AuthController extends Controller
         }
     }
 
-    public function verifyEmail($token) {
-        $user = User::where('verification_token', $token)->first();
+    public function verifyEmail(Request $request) {
+        $user = User::where('verification_token', $request->verification_token)->first();
         if(!$user) {
             return response()->json(['message' => 'Invalid token'], 404);
         }
+        return response()->json(['message' => 'Success'], 200);
     }
 
     public function login(Request $request) {
