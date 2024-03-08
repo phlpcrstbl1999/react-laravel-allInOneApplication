@@ -20,4 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/auth/verify', [AuthController::class, 'verify']);
+Route::get('/auth/verify/{token}', [AuthController::class, 'verifyEmail'])->name('auth.verify');;
 Route::post('/auth/login', [AuthController::class, 'login']);

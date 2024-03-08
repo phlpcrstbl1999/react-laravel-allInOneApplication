@@ -4,9 +4,9 @@
     <title>Email Verification</title>
 </head>
 <body>
-    <p>Please click the button below to verify your email address:</p>
-    <a href="{{ route('verify-email', $verificationToken) }}">
-        <button style="background-color: rgb(35, 86, 181); /* Green */
+    <p>Please click the button below to verify your email address:</p><br>
+    <a href="{{ route('auth.verify', ['token' => $verificationToken]) }}">Verify Email
+    <button style="background-color: rgb(35, 86, 181); /* Green */
                 border: none;
                 color: white;
                 padding: 15px 32px;

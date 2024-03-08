@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EmailVerification;
+use Illuminate\Support\Facades\Redis;
+
 class AuthController extends Controller
 {
     public function verify(Request $request) {
@@ -33,12 +35,12 @@ class AuthController extends Controller
             }else {
                 $user->verification_token = $verificationToken;
                 $user->save();
-                // try {
-                //     Mail::to($email)->send(new EmailVerification($verificationToken));
-                //     return response()->json(['message' => 'Verification email sent'], 200);
-                // } catch (ValidationException $e) {
-                //     return response()->json(['message' => $email], 500);
-                // }
+                try {
+                    Mail::to($email)->send(new EmailVerification($verificationToken));
+                    return response()->json(['message' => 'Verification email sent'], 200);
+                } catch (ValidationException $e) {
+                    return response()->json(['message' => $email], 500);
+                }
                 return response()->json([
                     'message' => $verificationToken,
                 ], 200);
@@ -54,6 +56,14 @@ class AuthController extends Controller
                 'errors' => $e,
             ], 500);
         }
+    }
+
+    public function verifyEmail($token) {
+        $user = User::where('verification_token', $token)->first();
+        if(!$user) {
+            return response()->json(['message' => 'Invalid token'], 404);
+        }
+        return response()->json(['message' => 'Success'], 200);
     }
 
     public function login(Request $request) {
