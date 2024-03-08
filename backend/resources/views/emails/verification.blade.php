@@ -5,7 +5,7 @@
 </head>
 <body>
     <p>Please click the button below to verify your email address:</p><br>
-    <a href="http://localhost:3000/authentication/register?{{$verificationToken}}">
+    <a href="http://localhost:3000/authentication/register?token={{$verificationToken}}">
     <button style="background-color: rgb(35, 86, 181); /* Green */
                 border: none;
                 color: white;
