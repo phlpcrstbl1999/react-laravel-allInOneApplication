@@ -6,7 +6,7 @@
 <body>
     <p>Please click the button below to verify your email address:</p>
     <a href="{{ route('verify-email', $verificationToken) }}">
-        <button style="background-color: #4CAF50; /* Green */
+        <button style="background-color: rgb(35, 86, 181); /* Green */
                 border: none;
                 color: white;
                 padding: 15px 32px;
