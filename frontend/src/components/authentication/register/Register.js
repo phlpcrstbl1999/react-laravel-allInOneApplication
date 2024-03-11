@@ -84,7 +84,7 @@ const Register = () => {
             <EmailTextHelper />
       </FormControl>
       <Button variant="contained" className='animate__animated animate__bounceInRight' name='email' onClick={handleVerifyEmail}>Verify</Button>
-      <p>Already have an account? <Link href="/authentication" underline="hover">Sign in</Link></p>
+      <p>Already have an account? <Link href="/authentication/login" underline="hover">Sign in</Link></p>
       <BasicSnackbar 
         vertical={snackbar.vertical} 
         horizontal={snackbar.horizontal} 

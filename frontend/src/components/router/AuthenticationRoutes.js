@@ -6,7 +6,7 @@ import Register from '../authentication/register/Register';
 const AuthenticationRouter = () => {
   return (
     <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
     </Routes>
   )
