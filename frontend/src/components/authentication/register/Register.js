@@ -16,6 +16,7 @@ const Register = () => {
   const [credential, setCredential] = useState({
     email: ''
   });
+  const [token, setToken] = useState('');
   const [loading, setLoading] = useState(false);
   const handleVerifyEmail = async () => {
     if(credential.email === '' || credential.email === null) {
@@ -59,15 +60,27 @@ const Register = () => {
   
     return <FormHelperText>{helperText}</FormHelperText>;
   }
-
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
-    const token = searchParams.get('token');
-    if(token !== null) {
-      console.log(token); 
+    setToken(searchParams.get('token'));
+    if(token !== '' && token !== null) {
+      const emailVerification = async () => {
+        try {
+          setLoading(true);
+          const response = await axios.post('http://localhost:8000/api/auth/verifyEmail', {token});
+          const data = response.data;
+          const message = data.message;
+          console.log(message);
+          console.log(token); 
+        } catch (e) {
+          console.error("Error fetching data:", e);
+        } finally {
+          setLoading(false);
+        }
+      };
+      emailVerification();
     }
-    
-}, []);
+}, [token]);
 
   return (
     <div className='register-container'>
