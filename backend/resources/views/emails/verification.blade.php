@@ -2,6 +2,14 @@
 <html>
 <head>
     <title>Email Verification</title>
+    <style>
+        body {
+            text-align: center;
+        }
+        p {
+            color: black;
+        }
+    </style>
 </head>
 <body>
     <p>Please click the button below to verify your email address:</p><br>
@@ -15,7 +23,9 @@
                 display: inline-block;
                 font-size: 16px;
                 margin: 4px 2px;
-                cursor: pointer;">Verify Email</button>
+                cursor: pointer;
+                border-radius: 10px;
+                ">Verify Email</button>
     </a>
 </body>
 </html>
