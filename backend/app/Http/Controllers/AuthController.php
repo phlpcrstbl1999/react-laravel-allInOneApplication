@@ -63,7 +63,7 @@ class AuthController extends Controller
         if(!$token) {
             return response()->json(['message' => 'Invalid token'], 404);
         }
-        return response()->json(['message' => 'Success'], 200);
+        return response()->json($token, 200);
     }
 
     public function login(Request $request) {

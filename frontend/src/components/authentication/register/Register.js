@@ -1,5 +1,7 @@
 import { React, useState, useMemo, useEffect } from 'react'
-import { Button, Link, InputLabel, Input, FormControl, FormHelperText, useFormControl } from '@mui/material';
+import { Button, Link, InputLabel, Input, FormControl, FormHelperText, useFormControl, InputAdornment, IconButton } from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import axios from 'axios';
 import './Register.css';
 import BasicSnackbar from '../../common/Snackbar/BasicSnackbar';
@@ -14,10 +16,17 @@ const Register = () => {
     message: ''
   });
   const [credential, setCredential] = useState({
-    email: ''
+    email: '',
+    password: ''
   });
+  const handleCredential = (e) => {
+    setCredential({ ...credential, [e.target.name]: e.target.value });
+  }
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
   const [token, setToken] = useState('');
   const [loading, setLoading] = useState(false);
+  const [hideRegisterComponent, setHideRegisterComponent] = useState(false);
   const handleVerifyEmail = async () => {
     if(credential.email === '' || credential.email === null) {
       setSnackbar({...snackbar, open: true, severityAlert: 'error', message: 'Email address is required'});
@@ -66,11 +75,12 @@ const Register = () => {
     if(token !== '' && token !== null) {
       const emailVerification = async () => {
         try {
+          setHideRegisterComponent(true);
           setLoading(true);
           const response = await axios.post('http://localhost:8000/api/auth/verifyEmail', {token});
           const data = response.data;
           const message = data.message;
-          console.log(message);
+          console.log(data);
           console.log(token); 
         } catch (e) {
           console.error("Error fetching data:", e);
@@ -89,6 +99,7 @@ const Register = () => {
       <div className='register-left'>
 
       </div>
+      {hideRegisterComponent === false ? 
       <div className='register-right'>
       <h1 className='animate__animated animate__bounceInRight'>Sign Up</h1>
       <FormControl sx={{ m: 1, width: '65%' }} variant="outlined" className='animate__animated animate__bounceInLeft' error={false}>
@@ -108,6 +119,57 @@ const Register = () => {
         message={snackbar.message}
       />
       </div>
+      :
+      <div className='register-right'>
+      <h1 className='animate__animated animate__bounceInRight'>Sign Up</h1>
+      <FormControl sx={{ m: 1, width: '65%' }} variant="outlined" className='animate__animated animate__bounceInLeft' error={false}>
+      <InputLabel htmlFor="standard-adornment-email">Email</InputLabel>
+            <Input type="email" id="standard-adornment-email" onChange={handleEmail} />
+      </FormControl>
+      <FormControl sx={{ m: 1, width: '65%' }} variant="outlined" className='animate__animated animate__bounceInLeft'>
+      <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+          <Input
+            id="standard-adornment-password"
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }  name="password" onChange={handleCredential}/>
+      </FormControl>
+      <FormControl sx={{ m: 1, width: '65%' }} variant="outlined" className='animate__animated animate__bounceInLeft'>
+      <InputLabel htmlFor="standard-adornment-password">Confirm Password</InputLabel>
+          <Input
+            id="standard-adornment-confirm-password"
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }  name="confirm-password" onChange={handleCredential}/>
+      </FormControl>
+      <Button variant="contained" className='animate__animated animate__bounceInRight' name='email' onClick={handleVerifyEmail}>Register</Button>
+      <BasicSnackbar 
+        vertical={snackbar.vertical} 
+        horizontal={snackbar.horizontal} 
+        open={snackbar.open} 
+        close={handleClose} 
+        severityAlert={snackbar.severityAlert} 
+        variantAlert={snackbar.variantAlert} 
+        message={snackbar.message}
+      />
+      </div>
+    }
     </div>
   )
 }
