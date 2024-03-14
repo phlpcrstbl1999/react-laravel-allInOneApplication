@@ -17,7 +17,8 @@ const Register = () => {
   });
   const [credential, setCredential] = useState({
     email: '',
-    password: ''
+    password: '',
+    confirmPassword: ''
   });
   const handleCredential = (e) => {
     setCredential({ ...credential, [e.target.name]: e.target.value });
@@ -48,10 +49,19 @@ const Register = () => {
     }
   }
   };
+
+  const handleRegister = () => {
+    if(credential.password === '' || credential.password === null || credential.password === undefined || credential.confirmPassword === '' || credential.confirmPassword === null || credential.confirmPassword === undefined) {
+      setSnackbar({ ...snackbar, open: true, severityAlert: 'error', message: 'Password and Confirm Password are required' });
+    }else if(credential.password !== credential.confirmPassword) {
+      setSnackbar({ ...snackbar, open: true, severityAlert: 'error', message: 'Passwords do not match' });
+    } 
+  }
+
   const handleEmail = (e) => {
     setCredential({ email: e.target.value });
   }
-
+  
   const handleClose = () => {
     setSnackbar({...snackbar, open: false});
   };
@@ -79,9 +89,7 @@ const Register = () => {
           setLoading(true);
           const response = await axios.post('http://localhost:8000/api/auth/verifyEmail', {token});
           const data = response.data;
-          const message = data.message;
-          console.log(data);
-          console.log(token); 
+          setCredential({ email: data.email });
         } catch (e) {
           console.error("Error fetching data:", e);
         } finally {
@@ -123,8 +131,7 @@ const Register = () => {
       <div className='register-right'>
       <h1 className='animate__animated animate__bounceInRight'>Sign Up</h1>
       <FormControl sx={{ m: 1, width: '65%' }} variant="outlined" className='animate__animated animate__bounceInLeft' error={false}>
-      <InputLabel htmlFor="standard-adornment-email">Email</InputLabel>
-            <Input type="email" id="standard-adornment-email" onChange={handleEmail} />
+            <Input id="standard-adornment-email" value={credential.email} disabled/>
       </FormControl>
       <FormControl sx={{ m: 1, width: '65%' }} variant="outlined" className='animate__animated animate__bounceInLeft'>
       <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
@@ -140,7 +147,7 @@ const Register = () => {
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
-            }  name="password" onChange={handleCredential}/>
+            }  name="password" onChange={handleCredential} required/>
       </FormControl>
       <FormControl sx={{ m: 1, width: '65%' }} variant="outlined" className='animate__animated animate__bounceInLeft'>
       <InputLabel htmlFor="standard-adornment-password">Confirm Password</InputLabel>
@@ -156,9 +163,9 @@ const Register = () => {
                   {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
-            }  name="confirm-password" onChange={handleCredential}/>
+            }  name="confirmPassword" onChange={handleCredential}/>
       </FormControl>
-      <Button variant="contained" className='animate__animated animate__bounceInRight' name='email' onClick={handleVerifyEmail}>Register</Button>
+      <Button variant="contained" className='animate__animated animate__bounceInRight' name='register' onClick={handleRegister}>Register</Button>
       <BasicSnackbar 
         vertical={snackbar.vertical} 
         horizontal={snackbar.horizontal} 
