@@ -41,7 +41,6 @@ const Register = () => {
       const data = response.data;
       const message = data.message;
       setSnackbar({...snackbar, open: true, severityAlert: 'success', message: message});
-      console.log(data);
     } catch(e) {
       setSnackbar({...snackbar, open: true, severityAlert: 'error', message:  e.response.data.message});
     } finally {
@@ -50,12 +49,26 @@ const Register = () => {
   }
   };
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if(credential.password === '' || credential.password === null || credential.password === undefined || credential.confirmPassword === '' || credential.confirmPassword === null || credential.confirmPassword === undefined) {
       setSnackbar({ ...snackbar, open: true, severityAlert: 'error', message: 'Password and Confirm Password are required' });
     }else if(credential.password !== credential.confirmPassword) {
       setSnackbar({ ...snackbar, open: true, severityAlert: 'error', message: 'Passwords do not match' });
-    } 
+    }else {
+      setLoading(true);
+      try {
+        const response = await axios.post('http://localhost:8000/api/auth/register', credential);
+        const data = response.data;
+        const message = data.message;
+        setSnackbar({...snackbar, open: true, severityAlert: 'success', message: message});
+        // setCredential({ email: credential.email, password: '', confirmPassword: '' });
+        setHideRegisterComponent(false);
+      } catch(e) {
+        setSnackbar({...snackbar, open: true, severityAlert: 'error', message:  e.response.data.message});
+      } finally {
+        setLoading(false);
+      }
+    }
   }
 
   const handleEmail = (e) => {
@@ -85,19 +98,21 @@ const Register = () => {
     if(token !== '' && token !== null) {
       const emailVerification = async () => {
         try {
-          setHideRegisterComponent(true);
           setLoading(true);
+          setHideRegisterComponent(true);
           const response = await axios.post('http://localhost:8000/api/auth/verifyEmail', {token});
           const data = response.data;
           setCredential({ email: data.email });
         } catch (e) {
-          console.error("Error fetching data:", e);
+          setHideRegisterComponent(false);
+          setSnackbar({...snackbar, open: true, severityAlert: 'error', message:  e.response.data.message});
         } finally {
           setLoading(false);
         }
       };
       emailVerification();
     }
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, [token]);
 
   return (
@@ -137,6 +152,7 @@ const Register = () => {
       <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
           <Input
             id="standard-adornment-password"
+            value={credential.password || ''}
             type={showPassword ? 'text' : 'password'}
             endAdornment={
               <InputAdornment position="end">
@@ -153,6 +169,7 @@ const Register = () => {
       <InputLabel htmlFor="standard-adornment-password">Confirm Password</InputLabel>
           <Input
             id="standard-adornment-confirm-password"
+            value={credential.confirmPassword || ''}
             type={showPassword ? 'text' : 'password'}
             endAdornment={
               <InputAdornment position="end">
@@ -166,6 +183,7 @@ const Register = () => {
             }  name="confirmPassword" onChange={handleCredential}/>
       </FormControl>
       <Button variant="contained" className='animate__animated animate__bounceInRight' name='register' onClick={handleRegister}>Register</Button>
+      <p>Already have an account? <Link href="/authentication/login" underline="hover">Sign in</Link></p>
       <BasicSnackbar 
         vertical={snackbar.vertical} 
         horizontal={snackbar.horizontal} 

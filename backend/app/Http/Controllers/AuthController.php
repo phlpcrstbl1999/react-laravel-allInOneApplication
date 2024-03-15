@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EmailVerification;
 use Illuminate\Support\Facades\Redis;
-
+use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     public function verify(Request $request) {
@@ -59,13 +59,36 @@ class AuthController extends Controller
     }
 
     public function verifyEmail(Request $request) {
-        $token = User::where('verification_token', $request->token)->first();
-        if(!$token) {
+        $user = User::where('verification_token', $request->token)->first();
+        if(!$user) {
             return response()->json(['message' => 'Invalid token'], 404);
         }
-        return response()->json($token, 200);
+        $activeTag = $user->active_tag;
+        if($activeTag == 'Y') {
+            return response()->json([
+                'message' => 'Already Registered, Please Sign In',
+            ], 403);
+        }
+        return response()->json($user, 200);
     }
 
+    public function register(Request $request) {
+        try {
+            $user = User::where('email', $request->email)->first();
+            $hashedPassword = Hash::make($request->password);
+            $user->password = $hashedPassword;
+            $user->active_tag = 'Y';
+            $user->save();
+            return response()->json([
+                'message' => 'Registration Successful',
+            ], 201);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'message' => 'Registration failed',
+                'errors' => $e,
+            ], 400);
+        }
+    }
     public function login(Request $request) {
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json(['message' => 'Invalid credentials'], 401);
