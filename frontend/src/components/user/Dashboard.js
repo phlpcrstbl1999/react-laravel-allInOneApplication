@@ -1,4 +1,4 @@
-import { React, useState} from 'react';
+import { React, useEffect, useState} from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -30,6 +30,7 @@ import Button from '@mui/material/Button';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import BasicProgress from '../common/BasicProgress/BasicProgress';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const drawerWidth = 240;
 
@@ -109,7 +110,11 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const theme = useTheme();
   const [open, setOpen] = useState();
+  const [token, setToken] = useState('');
   const [userInfo, setUserInfo] = useState([]);
+  const user_fname = userInfo ? userInfo.user_fname : '';
+  const user_mname = userInfo ? userInfo.user_mname : '';
+  const user_lname = userInfo ? userInfo.user_lname : '';
   //Functions
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -133,6 +138,31 @@ const Dashboard = () => {
       navigate('/authentication/login');
     }, 1000); 
   }
+  useEffect(() => {
+    setToken(localStorage.getItem('loginToken'));
+
+    const fetchUserData = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.post('http://localhost:8000/api/user', {token}, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        const data = response.data;
+        setUserInfo(data);
+      } catch(e) {
+        console.log('error: ', e);
+      } finally {
+        setLoading(false);
+      }
+    }
+    if (token) {
+      fetchUserData();
+    } else {
+      setUserInfo(null); // Reset user info if token is not available
+    }
+  }, [token]);
   return (
     <Box sx={{ display: 'flex' }}>
       {loading === true ? <BasicProgress /> : null} 
@@ -212,7 +242,7 @@ const Dashboard = () => {
                 sx={{color:'rgb(255, 255, 255)'}}
                 endIcon={<ArrowDropDownIcon />}
               >
-                Philip Cristobal
+                {user_fname + ' ' + user_lname}
               </Button>
               <Menu
                 id="fade-menu"
@@ -289,7 +319,7 @@ const Dashboard = () => {
         <DrawerHeader />
         <Grid container sx={{mb: 3}} spacing={2}>
           <Grid item xs={4}>
-            <BasicCard message={"Welcome back!"} name={"FullName"} />    
+            <BasicCard message={"Welcome back!"} name={user_fname + ' ' + user_lname} />    
           </Grid>
         </Grid>
         <Grid container sx={{mb: 3}} spacing={2}>
