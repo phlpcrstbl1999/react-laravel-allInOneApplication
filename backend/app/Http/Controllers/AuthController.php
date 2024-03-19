@@ -63,6 +63,8 @@ class AuthController extends Controller
         if(!$user) {
             return response()->json(['message' => 'Invalid token'], 404);
         }
+        $user->email_verified_at = now();
+        $user->save();
         $activeTag = $user->active_tag;
         if($activeTag == 'Y') {
             return response()->json([
@@ -78,6 +80,7 @@ class AuthController extends Controller
             $hashedPassword = Hash::make($request->password);
             $user->password = $hashedPassword;
             $user->active_tag = 'Y';
+            $user->date_registered = now();
             $user->save();
             return response()->json([
                 'message' => 'Registration Successful',
@@ -96,7 +99,8 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->firstOrFail();
         $token = $user->createToken('auth_token')->plainTextToken;
-
+        $user->remember_token = $token;
+        $user->save();
         return response()->json(['access_token' => $token], 201);
     }
 }
