@@ -1,4 +1,4 @@
-import { React, useState, useMemo, useEffect } from 'react';
+import { React, useState, useMemo } from 'react';
 import axios from 'axios';
 import { Button, Link, InputLabel, Input, InputAdornment, IconButton, FormControl, useFormControl, FormHelperText } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
@@ -25,7 +25,6 @@ const Login = () => {
     variantAlert: 'filled',
     message: ''
   });
-  const [token, setToken] = useState('');
 
   //Functions
   const handleCredential = (e) => {
@@ -85,7 +84,7 @@ const Login = () => {
     
     return <FormHelperText>{helperText}</FormHelperText>;
   }
-  
+
   return (
     <div className='login-container'>
        {loading === true ? <BasicProgress /> : null} 
