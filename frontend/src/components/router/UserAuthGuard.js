@@ -9,7 +9,7 @@ const AdminAuthGuard = ({ children }) => {
     return children;
   }
 
-  return <Navigate to="/login" />;
+  return <Navigate to="/authentication/login" />;
 };
 
 export default AdminAuthGuard;

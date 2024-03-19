@@ -47,7 +47,7 @@ const Login = () => {
         const message = data.message;
         setSnackbar({...snackbar, open: true, severityAlert: 'success', message: message});
         localStorage.setItem('loginToken', data.access_token);
-        navigate('/admin');
+        navigate('/dashboard');
       } catch(e) {
         setSnackbar({...snackbar, open: true, severityAlert: 'error', message:  e.response.data.message});
       } finally {

@@ -28,6 +28,9 @@ import MainButton from '../common/MainButton/MainButton';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import BasicProgress from '../common/BasicProgress/BasicProgress';
+import { useNavigate } from 'react-router-dom';
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -99,16 +102,20 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 
 const Dashboard = () => {
+  //React Hook / Declaring / Initializing
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const openAnchor = Boolean(anchorEl);
+  const [loading, setLoading] = useState(false);
+  const theme = useTheme();
+  const [open, setOpen] = useState();
+  //Functions
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const theme = useTheme();
-  const [open, setOpen] = useState();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -118,8 +125,16 @@ const Dashboard = () => {
     setOpen(false);
   };
 
+  const handleLogout = () => {
+    setLoading(true);
+    setTimeout(() => { 
+      localStorage.removeItem('loginToken');
+      navigate('/authentication/login');
+    }, 1000); 
+  }
   return (
     <Box sx={{ display: 'flex' }}>
+      {loading === true ? <BasicProgress /> : null} 
       <CssBaseline />
       <AppBar position="fixed" open={open} sx={{ backgroundColor: 'rgb(35, 86, 181)'}}>
         <Toolbar>
@@ -218,7 +233,7 @@ const Dashboard = () => {
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
         </List>
         <List sx={{ backgroundColor: 'rgb(35, 86, 181)'}}>
