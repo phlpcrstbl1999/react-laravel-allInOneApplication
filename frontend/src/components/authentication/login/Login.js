@@ -1,4 +1,4 @@
-import { React, useState, useMemo } from 'react';
+import { React, useState, useMemo, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Link, InputLabel, Input, InputAdornment, IconButton, FormControl, useFormControl, FormHelperText } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
@@ -6,17 +6,32 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import './Login.css';
 import BasicSnackbar from '../../common/Snackbar/BasicSnackbar';
 import BasicProgress from '../../common/BasicProgress/BasicProgress';
+import {useNavigate} from 'react-router-dom'
+
 const Login = () => {
+  //React Hook / Declaring / Initializing
+  const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
   const [credential, setCredential] = useState({
     email: '',
     password: ''
   });
+  const [loading, setLoading] = useState(false);
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    vertical: 'top',
+    horizontal: 'right', 
+    severityAlert: '',
+    variantAlert: 'filled',
+    message: ''
+  });
+  const [token, setToken] = useState('');
+
+  //Functions
   const handleCredential = (e) => {
     setCredential({ ...credential, [e.target.name]: e.target.value });
   }
-  const [loading, setLoading] = useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleLogin = async() => {
     if(credential.email === '') {
       setSnackbar({...snackbar, open: true, severityAlert: 'error', message: 'Email address is required'});
@@ -32,7 +47,8 @@ const Login = () => {
         const data = response.data;
         const message = data.message;
         setSnackbar({...snackbar, open: true, severityAlert: 'success', message: message});
-        console.log(data);
+        localStorage.setItem('loginToken', data.access_token);
+        navigate('/admin');
       } catch(e) {
         setSnackbar({...snackbar, open: true, severityAlert: 'error', message:  e.response.data.message});
       } finally {
@@ -40,14 +56,7 @@ const Login = () => {
       }
     }
   };
-  const [snackbar, setSnackbar] = useState({
-    open: false,
-    vertical: 'top',
-    horizontal: 'right', 
-    severityAlert: '',
-    variantAlert: 'filled',
-    message: ''
-  });
+
   const handleClose = () => {
     setSnackbar({...snackbar, open: false});
   };
@@ -61,7 +70,6 @@ const Login = () => {
 
       return '';
     }, [focused]);
-  
     return <FormHelperText>{helperText}</FormHelperText>;
   }
   const PasswordTextHelper = () =>{
@@ -77,7 +85,7 @@ const Login = () => {
     
     return <FormHelperText>{helperText}</FormHelperText>;
   }
-
+  
   return (
     <div className='login-container'>
        {loading === true ? <BasicProgress /> : null} 
