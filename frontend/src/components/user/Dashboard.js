@@ -111,7 +111,12 @@ const Dashboard = () => {
   const theme = useTheme();
   const [open, setOpen] = useState();
   const [token, setToken] = useState('');
-  const [userInfo, setUserInfo] = useState([]);
+  const [userInfo, setUserInfo] = useState({
+    user_id: '',
+    user_fname: '',
+    user_mname: '',
+    user_lname: '',
+  });
   const user_fname = userInfo ? userInfo.user_fname : '';
   const user_mname = userInfo ? userInfo.user_mname : '';
   const user_lname = userInfo ? userInfo.user_lname : '';
