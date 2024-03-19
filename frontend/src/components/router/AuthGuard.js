@@ -5,7 +5,7 @@ const AuthGuard = ({ children }) => {
   const loginToken = localStorage.getItem('loginToken');
 
   if (loginToken) {
-    return <Navigate to="/admin" />;
+    return <Navigate to="/dashboard" />;
   }
 
   return children;

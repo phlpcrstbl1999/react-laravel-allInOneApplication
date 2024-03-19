@@ -98,7 +98,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 
 
-const Admin = () => {
+const Dashboard = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const openAnchor = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -302,4 +302,4 @@ const Admin = () => {
   );
 }
 
-export default Admin
+export default Dashboard
