@@ -35,7 +35,6 @@ const Register = () => {
       setSnackbar({...snackbar, open: true, severityAlert: 'error', message: 'Invalid email address'});
     } else {
     setLoading(true);
-    console.log(credential);
     try {
       const response = await axios.post('http://localhost:8000/api/auth/verify', credential);
       const data = response.data;

@@ -40,7 +40,6 @@ const Login = () => {
       setSnackbar({...snackbar, open: true, severityAlert: 'warning', message: 'Invalid email address'});
     } else {
       setLoading(true);
-      console.log(credential);
       try {
         const response = await axios.post('http://localhost:8000/api/auth/login', credential);
         const data = response.data;

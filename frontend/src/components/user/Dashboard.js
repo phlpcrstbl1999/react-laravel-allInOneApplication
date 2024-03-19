@@ -109,6 +109,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const theme = useTheme();
   const [open, setOpen] = useState();
+  const [userInfo, setUserInfo] = useState([]);
   //Functions
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
