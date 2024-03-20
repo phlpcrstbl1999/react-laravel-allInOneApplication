@@ -27,7 +27,11 @@ import Button from '@mui/material/Button';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import BasicProgress from '../../common/BasicProgress/BasicProgress';
 import { useNavigate } from 'react-router-dom';
+import { Grid } from '@mui/material';
 import axios from 'axios';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import { red } from '@mui/material/colors';
 
 const drawerWidth = 240;
 
@@ -270,7 +274,7 @@ const Profile = () => {
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
       </List>
-      <List sx={{ backgroundColor: 'rgb(35, 86, 181)'}}>
+      <List>
       <ListItemButton
         sx={{
           minHeight: 48,
@@ -284,44 +288,92 @@ const Profile = () => {
                   minWidth: 0,
                   mr: open ? 3 : 'auto',
                   justifyContent: 'center',
-                  color: 'rgb(255, 255, 255)'
+                  
               }}
             >
               <DashboardRoundedIcon />
             </ListItemIcon>
-            <ListItemText primary="Dashboard" sx={{ opacity: open ? 1 : 0, color: 'rgb(255, 255, 255)' }}/>
+            <ListItemText primary="Dashboard" sx={{ opacity: open ? 1 : 0}}/>
           </ListItemButton>
       </List>
       <Divider />
-      <List>
-        {['Sample 1', 'Sample 2', 'Sample 3'].map((text, index) => (
-          <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? 'initial' : 'center',
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center',
-                }}
-              >
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
     </Drawer>
+
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
       <DrawerHeader />
+  
+      <Grid container spacing={2}>
+        <Grid item sm={12} lg={3}>
+        <Card
+        variant="outlined"
+        sx={{
+        width: 'auto',
+        // to make the card resizable
+        height: '100%',
+        overflow: 'auto',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+        textAlign: 'center'
+        }}
+        >   
+            <CardContent>
+                <Typography sx={{ fontSize: 25, fontWeight: 'bold', paddingBottom: 3 }}>
+                    {user_fname + ' ' + user_lname}
+                </Typography>
+                <Typography variant="h5" component="div">
+                </Typography>
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingBottom: 10 }} >
+                    <Avatar
+                        alt="Remy Sharp"
+                        src="/static/images/avatar/1.jpg"
+                        sx={{ width: 110, height: 110 }}
+                    />
+                </div>
+                <Button variant="contained" size="small" sx={{backgroundColor: 'rgb(255, 51, 102)', marginBottom: 2}}>Upload New Photo</Button>
+                <div style={{padding: 5, fontSize: '12px', backgroundColor: '#D3D3D3', borderRadius: '5px', marginBottom: 10}} >
+                    Upload a new avatar, Larger image will be resized automatically.<br></br>
+                    Maximum upload size is <b>1 MB</b>
+                </div>
+                <Typography sx={{ fontSize: 12 }}>
+                    Member Since: <b>September 14, 2024</b>
+                </Typography>
+            </CardContent>
+        </Card>
+        </Grid>
+        <Grid item sm={12} lg={9}>
+        <Card
+        variant="outlined"
+        sx={{
+        width: 'auto',
+        // to make the card resizable
+        height: '100%',
+        overflow: 'auto',
+        display: 'flex',
+        justifyContent: 'space-between',
+        flexDirection: 'column'
+        }}
+        >   
+            <CardContent>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                    Word of the Day
+                </Typography>
+                <Typography variant="h5" component="div">
+                </Typography>
+                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    adjective
+                </Typography>
+                <Typography variant="body2">
+                    well meaning and kindly.
+                    <br />
+                    {'"a benevolent smile"'}
+                </Typography>
+            </CardContent>
+        </Card>
 
-
+        </Grid>
+      </Grid>
     </Box>
   </Box>
   )
