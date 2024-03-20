@@ -15,12 +15,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Fade from '@mui/material/Fade';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -31,7 +28,7 @@ import { Grid } from '@mui/material';
 import axios from 'axios';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import { red } from '@mui/material/colors';
+import { format } from 'date-fns';
 
 const drawerWidth = 240;
 
@@ -117,10 +114,12 @@ const Profile = () => {
     user_fname: '',
     user_mname: '',
     user_lname: '',
+    date_registered: ''
   });
   const user_fname = userInfo ? userInfo.user_fname : '';
   const user_mname = userInfo ? userInfo.user_mname : '';
   const user_lname = userInfo ? userInfo.user_lname : '';
+  const date_registered = userInfo ? format(new Date(userInfo.date_registered), 'dd MMMM yyyy') : '';
   //Functions
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -332,12 +331,12 @@ const Profile = () => {
                     />
                 </div>
                 <Button variant="contained" size="small" sx={{backgroundColor: 'rgb(255, 51, 102)', marginBottom: 2}}>Upload New Photo</Button>
-                <div style={{padding: 5, fontSize: '12px', backgroundColor: '#D3D3D3', borderRadius: '5px', marginBottom: 10}} >
-                    Upload a new avatar, Larger image will be resized automatically.<br></br>
+                <div style={{padding: 10, fontSize: '12px', backgroundColor: '#D3D3D3', borderRadius: '5px', marginBottom: 10}} >
+                    Upload a new avatar. Larger image will be resized automatically.<br></br>
                     Maximum upload size is <b>1 MB</b>
                 </div>
                 <Typography sx={{ fontSize: 12 }}>
-                    Member Since: <b>September 14, 2024</b>
+                    Member Since: <b>{date_registered}</b>
                 </Typography>
             </CardContent>
         </Card>
