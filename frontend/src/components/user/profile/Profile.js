@@ -114,12 +114,12 @@ const Profile = () => {
     user_fname: '',
     user_mname: '',
     user_lname: '',
-    date_registered: ''
+    date_registered: Date()
   });
   const user_fname = userInfo ? userInfo.user_fname : '';
   const user_mname = userInfo ? userInfo.user_mname : '';
   const user_lname = userInfo ? userInfo.user_lname : '';
-  const date_registered = userInfo ? format(new Date(userInfo.date_registered), 'dd MMMM yyyy') : '';
+  const date_registered = userInfo ? format(new Date(userInfo.date_registered), 'dd MMMM yyyy') : 'No registration date available';
   //Functions
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -336,7 +336,7 @@ const Profile = () => {
                     Maximum upload size is <b>1 MB</b>
                 </div>
                 <Typography sx={{ fontSize: 12 }}>
-                    Member Since: <b>{date_registered}</b>
+                    Registered Since: <b>{date_registered}</b>
                 </Typography>
             </CardContent>
         </Card>
