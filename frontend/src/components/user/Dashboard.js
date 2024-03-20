@@ -135,7 +135,9 @@ const Dashboard = () => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
+  const handleProfile = () => {
+    navigate('/user/profile');
+  }
   const handleLogout = () => {
     setLoading(true);
     setTimeout(() => { 
@@ -267,8 +269,7 @@ const Dashboard = () => {
                   horizontal: 'center',
                 }}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={handleProfile}>My Account</MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
         </List>
@@ -279,7 +280,7 @@ const Dashboard = () => {
             justifyContent: open ? 'initial' : 'center',
             px: 2.5,
           }}
-          href="/admin"
+          href="/dashboard"
         >
               <ListItemIcon
                 sx={{

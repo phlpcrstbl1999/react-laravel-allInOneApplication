@@ -1,11 +1,11 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'; 
-import Dashboard from '../user/Dashboard';
 import UserAuthGuard from './UserAuthGuard';
+import Profile from '../user/profile/Profile';
 const UserRoutes = () => {
   return (
     <Routes>
-        <Route path="/" element={<UserAuthGuard><Dashboard /></UserAuthGuard>} />
+        <Route path="/profile" element={<UserAuthGuard><Profile /></UserAuthGuard>} />
     </Routes>
   )
 }
