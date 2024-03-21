@@ -29,6 +29,10 @@ import axios from 'axios';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { format } from 'date-fns';
+import PropTypes from 'prop-types';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import TextField from '@mui/material/TextField';
 
 const drawerWidth = 240;
 
@@ -97,11 +101,43 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
+function CustomTabPanel(props) {
+  const { children, value, index, ...other } = props;
 
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+CustomTabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
 
 
 const Profile = () => {
     //React Hook / Declaring / Initializing
+  const [value, setValue] = useState(0);
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const openAnchor = Boolean(anchorEl);
@@ -114,13 +150,21 @@ const Profile = () => {
     user_fname: '',
     user_mname: '',
     user_lname: '',
+    email: '',
+    dept_name: '', 
     date_registered: Date()
   });
   const user_fname = userInfo ? userInfo.user_fname : '';
   const user_mname = userInfo ? userInfo.user_mname : '';
   const user_lname = userInfo ? userInfo.user_lname : '';
+  const user_email = userInfo ? userInfo.email : '';
+  const user_dept = userInfo ? userInfo.dept_name : '';
   const date_registered = userInfo ? format(new Date(userInfo.date_registered), 'dd MMMM yyyy') : 'No registration date available';
   //Functions
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -302,13 +346,13 @@ const Profile = () => {
       <DrawerHeader />
   
       <Grid container spacing={2}>
-        <Grid item sm={12} lg={3}>
+        <Grid item xs={12} sm={12} lg={3}>
         <Card
         variant="outlined"
         sx={{
         width: 'auto',
         // to make the card resizable
-        height: '100%',
+        height: 'auto',
         overflow: 'auto',
         display: 'flex',
         justifyContent: 'center',
@@ -341,7 +385,7 @@ const Profile = () => {
             </CardContent>
         </Card>
         </Grid>
-        <Grid item sm={12} lg={9}>
+        <Grid item xs={12} sm={12} lg={9}>
         <Card
         variant="outlined"
         sx={{
@@ -350,24 +394,62 @@ const Profile = () => {
         height: '100%',
         overflow: 'auto',
         display: 'flex',
-        justifyContent: 'space-between',
         flexDirection: 'column'
         }}
         >   
-            <CardContent>
-                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                    Word of the Day
-                </Typography>
-                <Typography variant="h5" component="div">
-                </Typography>
-                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    adjective
-                </Typography>
-                <Typography variant="body2">
-                    well meaning and kindly.
-                    <br />
-                    {'"a benevolent smile"'}
-                </Typography>
+        <div style={{padding: '15px 15px 0 15px', backgroundColor: '#E5E4E2'}}>
+            <Typography variant="h5" fontWeight={'bold'} gutterBottom sx={{paddingLeft: '15px'}}>
+                    Edit Profile
+            </Typography>
+            <Box>
+              <Tabs value={value} onChange={handleChange} aria-label="user-profile tabs">
+                <Tab label="User Info" {...a11yProps(0)} />
+                {/* <Tab label="Item Two" {...a11yProps(1)} />
+                <Tab label="Item Three" {...a11yProps(2)} /> */}
+              </Tabs>
+            </Box>
+           
+            {/* <CustomTabPanel value={value} index={1}>
+              Item Two
+            </CustomTabPanel>
+            <CustomTabPanel value={value} index={2}>
+              Item Three
+            </CustomTabPanel> */}
+        </div>
+            <CardContent sx={{padding: 1}}>                
+              <CustomTabPanel value={value} index={0}>
+                <Grid container spacing={2} paddingBottom={2}>
+                  <Grid item xs={12} sm={4} lg={4}>
+                    <label style={{fontSize:'12px', fontWeight:'bold'}}>First Name</label>
+                    <TextField id="standard-basic" variant="outlined" value={user_fname} sx={{width: '100%'}} aria-readonly/>
+                  </Grid>
+                  <Grid item xs={12} sm={4} lg={4}>
+                    <label style={{fontSize:'12px', fontWeight:'bold'}}>Middle Name</label>
+                    <TextField id="standard-basic" variant="outlined" value={user_mname} sx={{width: '100%'}} aria-readonly/>
+                  </Grid>
+                  <Grid item xs={12} sm={4} lg={4}>
+                    <label style={{fontSize:'12px', fontWeight:'bold'}}>Last Name</label>
+                    <TextField id="standard-basic" variant="outlined" value={user_lname} sx={{width: '100%'}} aria-readonly/>
+                  </Grid>
+                  <Grid item xs={12} sm={6} lg={6}>
+                    <label style={{fontSize:'12px', fontWeight:'bold'}}>Email Address</label>
+                    <TextField id="standard-basic" variant="outlined" value={user_email} sx={{width: '100%'}} aria-readonly/>
+                  </Grid>
+                  <Grid item xs={12} sm={6} lg={6}>
+                    <label style={{fontSize:'12px', fontWeight:'bold'}}>Department</label>
+                    <TextField id="standard-basic" variant="outlined" value={user_dept} sx={{width: '100%'}} aria-readonly/>
+                  </Grid>
+                  <Grid item xs={12} sm={6} lg={6}>
+                    <label style={{fontSize:'12px', fontWeight:'bold'}}>New Password</label>
+                    <TextField id="standard-basic" variant="outlined" sx={{width: '100%'}}/>
+                  </Grid>
+                  <Grid item xs={12} sm={6} lg={6}>
+                    <label style={{fontSize:'12px', fontWeight:'bold'}}>Confirm New Password</label>
+                    <TextField id="standard-basic" variant="outlined" sx={{width: '100%'}}/>
+                  </Grid>
+                </Grid>
+                <Button variant="contained" size="medium" sx={{backgroundColor: 'rgb(255, 51, 102)'}}>Save</Button>
+              </CustomTabPanel>
             </CardContent>
         </Card>
 
