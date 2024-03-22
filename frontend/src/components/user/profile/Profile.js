@@ -189,6 +189,12 @@ const Profile = () => {
       navigate('/authentication/login');
     }, 1000); 
   }
+  const handleUpdateProfile = () => {
+
+  }
+  const handleUploadProfile = () => {
+    
+  }
   useEffect(() => {
     setToken(localStorage.getItem('loginToken'));
 
@@ -374,7 +380,7 @@ const Profile = () => {
                         sx={{ width: 110, height: 110 }}
                     />
                 </div>
-                <Button variant="contained" size="small" sx={{backgroundColor: 'rgb(255, 51, 102)', marginBottom: 2}}>Upload New Photo</Button>
+                <Button variant="contained" size="small" sx={{backgroundColor: 'rgb(255, 51, 102)', marginBottom: 2}} onClick={handleUploadProfile}>Upload New Photo</Button>
                 <div style={{padding: 10, fontSize: '12px', backgroundColor: '#D3D3D3', borderRadius: '5px', marginBottom: 10}} >
                     Upload a new avatar. Larger image will be resized automatically.<br></br>
                     Maximum upload size is <b>1 MB</b>
@@ -448,7 +454,7 @@ const Profile = () => {
                     <TextField id="standard-basic" variant="outlined" sx={{width: '100%'}}/>
                   </Grid>
                 </Grid>
-                <Button variant="contained" size="medium" sx={{backgroundColor: 'rgb(255, 51, 102)'}}>Save</Button>
+                <Button variant="contained" size="medium" sx={{backgroundColor: 'rgb(255, 51, 102)'}} onClick={handleUpdateProfile}>Save</Button>
               </CustomTabPanel>
             </CardContent>
         </Card>
