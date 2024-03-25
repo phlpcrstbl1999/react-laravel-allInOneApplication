@@ -25,3 +25,4 @@ Route::post('/auth/verifyEmail', [AuthController::class, 'verifyEmail']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/user', [UserController::class, 'getUserByToken']);
+Route::post('/user/upload', [UserController::class, 'uploadProfile']);

@@ -18,4 +18,18 @@ class UserController extends Controller
 
         return response()->json($user, 200);
     }
+
+    public function uploadProfile(Request $request) {
+
+        if ($request->hasFile('image')) {
+            $uploadedFile = $request->file('image');
+            $user_id = $request->user_id;
+            $filename = $user_id . '.' . $uploadedFile->getClientOriginalExtension();
+            $path = $uploadedFile->move('users-profile', $filename);
+
+            return response()->json(['message' => 'Profile picture uploaded successfully', 'path' => $path]);
+        }else {
+            return response()->json(['error' => 'No file uploaded'], 400);
+        }
+    }
 }

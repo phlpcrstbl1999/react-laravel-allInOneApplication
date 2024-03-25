@@ -33,6 +33,7 @@ import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import TextField from '@mui/material/TextField';
+import BasicSnackbar from '../../common/Snackbar/BasicSnackbar';
 
 const drawerWidth = 240;
 
@@ -160,6 +161,14 @@ const Profile = () => {
   const user_email = userInfo ? userInfo.email : '';
   const user_dept = userInfo ? userInfo.dept_name : '';
   const date_registered = userInfo ? format(new Date(userInfo.date_registered), 'dd MMMM yyyy') : 'No registration date available';
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    vertical: 'top',
+    horizontal: 'right', 
+    severityAlert: '',
+    variantAlert: 'filled',
+    message: ''
+  });
   //Functions
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -189,6 +198,7 @@ const Profile = () => {
       navigate('/authentication/login');
     }, 1000); 
   }
+
   const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -201,10 +211,30 @@ const Profile = () => {
   width: 1,
 });
   const handleUpdateProfile = () => {
-    
   }
-  const handleUploadProfile = (e) => {
-    console.log(e.target.files[0]);
+  const handleUploadProfile = async (e) => {
+    const selectedFile = e.target.files[0];
+    const fileSizeInMB = selectedFile.size / (1024 * 1024);
+    if(fileSizeInMB > 1) {
+      setSnackbar({...snackbar, open: true, severityAlert: 'error', message: 'File size exceeds the maximum limit of 1MB.'});
+    }else {
+      console.log(e.target.files[0]);
+      const formData = new FormData();
+      formData.append('image', selectedFile);
+      formData.append('user_id', userInfo.user_id);
+      try {
+        const response = await axios.post('http://localhost:8000/api/user/upload', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        const data = response.data;
+        console.log (data);
+        console.log('Profile picture uploaded successfully');
+    } catch (error) {
+        console.error('Error uploading profile picture:', error);
+    }
+    }
   }
   useEffect(() => {
     setToken(localStorage.getItem('loginToken'));
@@ -234,6 +264,15 @@ const Profile = () => {
   return (
     <Box sx={{ display: 'flex' }}>
     {loading === true ? <BasicProgress /> : null} 
+    <BasicSnackbar
+        vertical={snackbar.vertical} 
+        horizontal={snackbar.horizontal} 
+        open={snackbar.open} 
+        close={handleClose} 
+        severityAlert={snackbar.severityAlert} 
+        variantAlert={snackbar.variantAlert} 
+        message={snackbar.message}
+      />
     <CssBaseline />
     <AppBar position="fixed" open={open} sx={{ backgroundColor: 'rgb(35, 86, 181)'}}>
       <Toolbar>
