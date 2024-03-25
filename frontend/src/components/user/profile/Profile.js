@@ -189,11 +189,22 @@ const Profile = () => {
       navigate('/authentication/login');
     }, 1000); 
   }
+  const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
   const handleUpdateProfile = () => {
-
-  }
-  const handleUploadProfile = () => {
     
+  }
+  const handleUploadProfile = (e) => {
+    console.log(e.target.files[0]);
   }
   useEffect(() => {
     setToken(localStorage.getItem('loginToken'));
@@ -380,7 +391,7 @@ const Profile = () => {
                         sx={{ width: 110, height: 110 }}
                     />
                 </div>
-                <Button variant="contained" size="small" sx={{backgroundColor: 'rgb(255, 51, 102)', marginBottom: 2}} onClick={handleUploadProfile}>Upload New Photo</Button>
+                <Button  component="label" role={undefined} variant="contained" size="small" sx={{backgroundColor: 'rgb(255, 51, 102)', marginBottom: 2}} onChange={handleUploadProfile}>Upload New Photo  <VisuallyHiddenInput type="file" /></Button>
                 <div style={{padding: 10, fontSize: '12px', backgroundColor: '#D3D3D3', borderRadius: '5px', marginBottom: 10}} >
                     Upload a new avatar. Larger image will be resized automatically.<br></br>
                     Maximum upload size is <b>1 MB</b>
@@ -392,28 +403,16 @@ const Profile = () => {
         </Card>
         </Grid>
         <Grid item xs={12} sm={12} lg={9}>
-        <Card
-        variant="outlined"
-        sx={{
-        width: 'auto',
-        // to make the card resizable
-        height: '100%',
-        overflow: 'auto',
-        display: 'flex',
-        flexDirection: 'column'
-        }}
-        >   
+        <div style={{border: '1px solid #D3D3D3', borderRadius: '5px'}}>
         <div style={{padding: '15px 15px 0 15px', backgroundColor: '#E5E4E2'}}>
             <Typography variant="h5" fontWeight={'bold'} gutterBottom sx={{paddingLeft: '15px'}}>
                     Edit Profile
             </Typography>
-            <Box>
               <Tabs value={value} onChange={handleChange} aria-label="user-profile tabs">
                 <Tab label="User Info" {...a11yProps(0)} />
                 {/* <Tab label="Item Two" {...a11yProps(1)} />
                 <Tab label="Item Three" {...a11yProps(2)} /> */}
               </Tabs>
-            </Box>
            
             {/* <CustomTabPanel value={value} index={1}>
               Item Two
@@ -422,28 +421,27 @@ const Profile = () => {
               Item Three
             </CustomTabPanel> */}
         </div>
-            <CardContent sx={{padding: 1}}>                
-              <CustomTabPanel value={value} index={0}>
+              <div style={{padding: 20}}>
                 <Grid container spacing={2} paddingBottom={2}>
                   <Grid item xs={12} sm={4} lg={4}>
                     <label style={{fontSize:'12px', fontWeight:'bold'}}>First Name</label>
-                    <TextField id="standard-basic" variant="outlined" value={user_fname} sx={{width: '100%'}} aria-readonly/>
+                    <TextField id="standard-basic" variant="outlined" value={user_fname} sx={{width: '100%'}} readOnly />
                   </Grid>
                   <Grid item xs={12} sm={4} lg={4}>
                     <label style={{fontSize:'12px', fontWeight:'bold'}}>Middle Name</label>
-                    <TextField id="standard-basic" variant="outlined" value={user_mname} sx={{width: '100%'}} aria-readonly/>
+                    <TextField id="standard-basic" variant="outlined" value={user_mname} sx={{width: '100%'}} readOnly />
                   </Grid>
                   <Grid item xs={12} sm={4} lg={4}>
                     <label style={{fontSize:'12px', fontWeight:'bold'}}>Last Name</label>
-                    <TextField id="standard-basic" variant="outlined" value={user_lname} sx={{width: '100%'}} aria-readonly/>
+                    <TextField id="standard-basic" variant="outlined" value={user_lname} sx={{width: '100%'}} readOnly />
                   </Grid>
                   <Grid item xs={12} sm={6} lg={6}>
                     <label style={{fontSize:'12px', fontWeight:'bold'}}>Email Address</label>
-                    <TextField id="standard-basic" variant="outlined" value={user_email} sx={{width: '100%'}} aria-readonly/>
+                    <TextField id="standard-basic" variant="outlined" value={user_email} sx={{width: '100%'}} readOnly />
                   </Grid>
                   <Grid item xs={12} sm={6} lg={6}>
                     <label style={{fontSize:'12px', fontWeight:'bold'}}>Department</label>
-                    <TextField id="standard-basic" variant="outlined" value={user_dept} sx={{width: '100%'}} aria-readonly/>
+                    <TextField id="standard-basic" variant="outlined" value={user_dept} sx={{width: '100%'}} readOnly />
                   </Grid>
                   <Grid item xs={12} sm={6} lg={6}>
                     <label style={{fontSize:'12px', fontWeight:'bold'}}>New Password</label>
@@ -455,9 +453,8 @@ const Profile = () => {
                   </Grid>
                 </Grid>
                 <Button variant="contained" size="medium" sx={{backgroundColor: 'rgb(255, 51, 102)'}} onClick={handleUpdateProfile}>Save</Button>
-              </CustomTabPanel>
-            </CardContent>
-        </Card>
+        </div>
+        </div>
 
         </Grid>
       </Grid>
