@@ -253,11 +253,7 @@ const Profile = () => {
           const parsedData = JSON.parse(cachedData);
           setUserInfo(parsedData);
         }
-        const response = await axios.post('http://localhost:8000/api/user', {token}, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
+        const response = await axios.post('http://localhost:8000/api/user', {token});
         const data = response.data;
         setUserInfo(data);
         localStorage.setItem('userInfo', JSON.stringify(data));
