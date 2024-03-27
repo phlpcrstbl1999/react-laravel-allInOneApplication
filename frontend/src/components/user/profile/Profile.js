@@ -334,16 +334,6 @@ const Profile = () => {
         gap: 1
         }}>
             {<Avatar alt={user_fname + ' ' + user_lname} src={user_profile_path} sx={{ width: 100, height: 100 }} />}
-            {/* <ListItemIcon
-              sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center',
-                  color: 'rgb(255, 255, 255)'
-              }}
-            >
-              <DashboardRoundedIcon />
-            </ListItemIcon> */}
             <Button
               id="fade-button"
               aria-controls={openAnchor ? 'fade-menu' : undefined}

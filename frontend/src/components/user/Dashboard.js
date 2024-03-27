@@ -284,7 +284,7 @@ const Dashboard = () => {
             justifyContent: open ? 'initial' : 'center',
             px: 2.5,
           }}
-          href="/dashboard"
+          href=""
         >
               <ListItemIcon
                 sx={{
