@@ -34,7 +34,6 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import TextField from '@mui/material/TextField';
 import BasicSnackbar from '../../common/Snackbar/BasicSnackbar';
-
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -153,13 +152,15 @@ const Profile = () => {
     user_lname: '',
     email: '',
     dept_name: '', 
-    date_registered: Date()
+    date_registered: Date(),
+    profile_path: ''
   });
   const user_fname = userInfo ? userInfo.user_fname : '';
   const user_mname = userInfo ? userInfo.user_mname : '';
   const user_lname = userInfo ? userInfo.user_lname : '';
   const user_email = userInfo ? userInfo.email : '';
   const user_dept = userInfo ? userInfo.dept_name : '';
+  const user_profile_path = userInfo ? userInfo.profile_path : '';
   const date_registered = userInfo ? format(new Date(userInfo.date_registered), 'dd MMMM yyyy') : 'No registration date available';
   const [snackbar, setSnackbar] = useState({
     open: false,
@@ -230,9 +231,10 @@ const Profile = () => {
         });
         const data = response.data;
         console.log (data);
-        console.log('Profile picture uploaded successfully');
     } catch (error) {
         console.error('Error uploading profile picture:', error);
+    } finally {
+      window.location.reload();
     }
     }
   }
@@ -325,11 +327,7 @@ const Profile = () => {
         color: 'rgb(255, 255, 255)',
         gap: 1
         }}>
-            <Avatar
-            alt="Remy Sharp"
-            src="/static/images/avatar/1.jpg"
-            sx={{ width: 100, height: 100 }}
-            />
+            {<Avatar alt={user_fname + ' ' + user_lname} src={user_profile_path} sx={{ width: 100, height: 100 }} />}
             {/* <ListItemIcon
               sx={{
                   minWidth: 0,
@@ -424,11 +422,7 @@ const Profile = () => {
                 <Typography variant="h5" component="div">
                 </Typography>
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingBottom: 10 }} >
-                    <Avatar
-                        alt="Remy Sharp"
-                        src="/static/images/avatar/1.jpg"
-                        sx={{ width: 110, height: 110 }}
-                    />
+                    {<Avatar alt={user_fname + ' ' + user_lname} src={user_profile_path} sx={{ width: 100, height: 100 }} />}
                 </div>
                 <Button  component="label" role={undefined} variant="contained" size="small" sx={{backgroundColor: 'rgb(255, 51, 102)', marginBottom: 2}} onChange={handleUploadProfile}>Upload New Photo  <VisuallyHiddenInput type="file" /></Button>
                 <div style={{padding: 10, fontSize: '12px', backgroundColor: '#D3D3D3', borderRadius: '5px', marginBottom: 10}} >

@@ -116,10 +116,12 @@ const Dashboard = () => {
     user_fname: '',
     user_mname: '',
     user_lname: '',
+    profile_path: ''
   });
   const user_fname = userInfo ? userInfo.user_fname : '';
   const user_mname = userInfo ? userInfo.user_mname : '';
   const user_lname = userInfo ? userInfo.user_lname : '';
+  const user_profile_path = userInfo ? userInfo.profile_path : '';
   //Functions
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -225,11 +227,7 @@ const Dashboard = () => {
           color: 'rgb(255, 255, 255)',
           gap: 1
           }}>
-              <Avatar
-              alt="Remy Sharp"
-              src="/static/images/avatar/1.jpg"
-              sx={{ width: 100, height: 100 }}
-              />
+              {<Avatar alt={user_fname + ' ' + user_lname} src={user_profile_path} sx={{ width: 100, height: 100 }} />}
               {/* <ListItemIcon
                 sx={{
                     minWidth: 0,

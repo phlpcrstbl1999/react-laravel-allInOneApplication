@@ -25,9 +25,12 @@ class UserController extends Controller
             $uploadedFile = $request->file('image');
             $user_id = $request->user_id;
             $filename = $user_id . '.' . $uploadedFile->getClientOriginalExtension();
-            $path = $uploadedFile->move('users-profile', $filename);
-
-            return response()->json(['message' => 'Profile picture uploaded successfully', 'path' => $path]);
+            $uploadedFile->move(public_path('users-profile'), $filename);
+            $imageUrl = url('users-profile/' . $filename);
+            $user = User::where('user_id', $request->user_id)->first();
+            $user->profile_path = $imageUrl;
+            $user->save();
+            return response()->json(['image_url' => $imageUrl]);
         }else {
             return response()->json(['error' => 'No file uploaded'], 400);
         }
