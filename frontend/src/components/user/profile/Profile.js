@@ -216,8 +216,12 @@ const Profile = () => {
   const handleUploadProfile = async (e) => {
     const selectedFile = e.target.files[0];
     const fileSizeInMB = selectedFile.size / (1024 * 1024);
+    const fileType = selectedFile.name.split('.').pop().toLowerCase();
+    console.log(fileType);
     if(fileSizeInMB > 1) {
       setSnackbar({...snackbar, open: true, severityAlert: 'error', message: 'File size exceeds the maximum limit of 1MB.'});
+    }else if(fileType !== 'jpeg' && fileType !== 'jpg' && fileType !== 'png' && fileType !== 'avif'){
+      setSnackbar({...snackbar, open: true, severityAlert: 'error', message: 'Invalid file type. Please upload valid type'});
     }else {
       console.log(e.target.files[0]);
       const formData = new FormData();
