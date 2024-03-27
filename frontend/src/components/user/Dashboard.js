@@ -153,7 +153,7 @@ const Dashboard = () => {
     const fetchUserData = async () => {
       try {
         setLoading(true);
-        const cachedData = localStorage.getItem('users');
+        const cachedData = localStorage.getItem('userInfo');
         if (cachedData) {
           const parsedData = JSON.parse(cachedData);
           setUserInfo(parsedData);
@@ -165,7 +165,7 @@ const Dashboard = () => {
         });
         const data = response.data;
         setUserInfo(data);
-        localStorage.setItem('users', JSON.stringify(data));
+        localStorage.setItem('userInfo', JSON.stringify(data));
       } catch(e) {
         console.log('error: ', e);
       } finally {
