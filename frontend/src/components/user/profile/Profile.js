@@ -244,6 +244,11 @@ const Profile = () => {
     const fetchUserData = async () => {
       try {
         setLoading(true);
+        const cachedData = localStorage.getItem('users');
+        if (cachedData) {
+          const parsedData = JSON.parse(cachedData);
+          setUserInfo(parsedData);
+        }
         const response = await axios.post('http://localhost:8000/api/user', {token}, {
           headers: {
             Authorization: `Bearer ${token}`
@@ -251,6 +256,7 @@ const Profile = () => {
         });
         const data = response.data;
         setUserInfo(data);
+        localStorage.setItem('users', JSON.stringify(data));
       } catch(e) {
         console.log('error: ', e);
       } finally {
