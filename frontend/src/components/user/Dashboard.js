@@ -159,7 +159,7 @@ const Dashboard = () => {
           const parsedData = JSON.parse(decryptedData);
           setUserInfo(parsedData);
         }
-        const response = await axios.post('http://localhost:8000/api/user', {token});
+        const response = await axios.post('http://192.20.4.92:8000/api/user', {token});
         const data = response.data;
         setUserInfo(data);
         const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(data), 'secret-key').toString();

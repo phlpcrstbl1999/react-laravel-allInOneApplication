@@ -41,14 +41,18 @@ const Login = () => {
     } else {
       setLoading(true);
       try {
-        const response = await axios.post('http://localhost:8000/api/auth/login', credential);
+        const response = await axios.post('http://192.20.4.92:8000/api/auth/login', credential);
         const data = response.data;
         const message = data.message;
         setSnackbar({...snackbar, open: true, severityAlert: 'success', message: message});
         localStorage.setItem('loginToken', data.access_token);
         navigate('/dashboard');
       } catch(e) {
-        setSnackbar({...snackbar, open: true, severityAlert: 'error', message:  e.response.data.message});
+        let errorMessage = 'An error occurred';
+        if (e.response && e.response.data && e.response.data.message) {
+          errorMessage = e.response.data.message;
+        }
+        setSnackbar({...snackbar, open: true, severityAlert: 'error', message: errorMessage});
       } finally {
         setLoading(false);
       }
