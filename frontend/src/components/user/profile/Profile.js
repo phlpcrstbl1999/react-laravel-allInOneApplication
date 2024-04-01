@@ -34,6 +34,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import TextField from '@mui/material/TextField';
 import BasicSnackbar from '../../common/Snackbar/BasicSnackbar';
+import CryptoJS from 'crypto-js';
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -244,19 +246,20 @@ const Profile = () => {
   }
   useEffect(() => {
     setToken(localStorage.getItem('loginToken'));
-
     const fetchUserData = async () => {
       try {
         setLoading(true);
         const cachedData = localStorage.getItem('userInfo');
         if (cachedData) {
-          const parsedData = JSON.parse(cachedData);
+          const decryptedData = CryptoJS.AES.decrypt(cachedData, 'secret-key').toString(CryptoJS.enc.Utf8);
+          const parsedData = JSON.parse(decryptedData);
           setUserInfo(parsedData);
         }
         const response = await axios.post('http://localhost:8000/api/user', {token});
         const data = response.data;
         setUserInfo(data);
-        localStorage.setItem('userInfo', JSON.stringify(data));
+        const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(data), 'secret-key').toString();
+        localStorage.setItem('userInfo', encryptedData);
       } catch(e) {
         console.log('error: ', e);
       } finally {

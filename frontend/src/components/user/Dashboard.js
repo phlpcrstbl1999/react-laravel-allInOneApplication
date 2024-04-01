@@ -31,7 +31,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import BasicProgress from '../common/BasicProgress/BasicProgress';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import CryptoJS from 'crypto-js';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -110,7 +110,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const theme = useTheme();
   const [open, setOpen] = useState();
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState(null);
   const [userInfo, setUserInfo] = useState({
     user_id: '',
     user_fname: '',
@@ -155,13 +155,15 @@ const Dashboard = () => {
         setLoading(true);
         const cachedData = localStorage.getItem('userInfo');
         if (cachedData) {
-          const parsedData = JSON.parse(cachedData);
+          const decryptedData = CryptoJS.AES.decrypt(cachedData, 'secret-key').toString(CryptoJS.enc.Utf8);
+          const parsedData = JSON.parse(decryptedData);
           setUserInfo(parsedData);
         }
         const response = await axios.post('http://localhost:8000/api/user', {token});
         const data = response.data;
         setUserInfo(data);
-        localStorage.setItem('userInfo', JSON.stringify(data));
+        const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(data), 'secret-key').toString();
+        localStorage.setItem('userInfo', encryptedData);
       } catch(e) {
         console.log('error: ', e);
       } finally {
