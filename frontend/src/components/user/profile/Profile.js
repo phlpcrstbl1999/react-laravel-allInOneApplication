@@ -24,7 +24,9 @@ import Button from '@mui/material/Button';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import BasicProgress from '../../common/BasicProgress/BasicProgress';
 import { useNavigate } from 'react-router-dom';
-import { Grid } from '@mui/material';
+import { Grid, FormControl, Input, InputAdornment } from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import axios from 'axios';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -139,6 +141,7 @@ function a11yProps(index) {
 
 const Profile = () => {
     //React Hook / Declaring / Initializing
+    
   const [value, setValue] = useState(0);
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -157,6 +160,10 @@ const Profile = () => {
     date_registered: Date(),
     profile_path: ''
   });
+  const [credential, setCredential] = useState({
+    newPassword: '',
+    newConfirmPassword: ''
+  });
   const user_fname = userInfo ? userInfo.user_fname : '';
   const user_mname = userInfo ? userInfo.user_mname : '';
   const user_lname = userInfo ? userInfo.user_lname : '';
@@ -172,6 +179,8 @@ const Profile = () => {
     variantAlert: 'filled',
     message: ''
   });
+  const [showPassword, setShowPassword] = useState(false);
+
   //Functions
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -182,6 +191,10 @@ const Profile = () => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({...snackbar, open: false});
   };
 
   const handleDrawerOpen = () => {
@@ -201,7 +214,10 @@ const Profile = () => {
       navigate('/authentication/login');
     }, 1000); 
   }
-
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleCredential = (e) => {
+    setCredential({ ...credential, [e.target.name]: e.target.value });
+  }
   const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -213,7 +229,28 @@ const Profile = () => {
   whiteSpace: 'nowrap',
   width: 1,
 });
-  const handleUpdateProfile = () => {
+  const handleUpdateProfile = async () => {
+    if(credential.newPassword === '' || credential.newPassword === null || credential.newPassword === undefined || credential.newConfirmPassword === '' || credential.newConfirmPassword === null || credential.newConfirmPassword === undefined) {
+      setSnackbar({ ...snackbar, open: true, severityAlert: 'error', message: 'Password and Confirm Password are required' });
+    }else if(credential.newPassword !== credential.newConfirmPassword) {
+      setSnackbar({ ...snackbar, open: true, severityAlert: 'error', message: 'Passwords do not match' });
+    }else {
+      setLoading(true);
+      try {
+        const response = await axios.post('http://192.20.4.92:8000/api/user/update', {
+          email: userInfo.email,
+          newPassword: credential.newPassword
+        });
+        const data = response.data;
+        const message = data.message;
+        setSnackbar({...snackbar, open: true, severityAlert: 'success', message: message});
+        setCredential({ email: credential.newPassword, password: '', newConfirmPassword: '' });
+      } catch(e) {
+        setSnackbar({...snackbar, open: true, severityAlert: 'error', message:  e.response.data.message});
+      } finally {
+        setLoading(false);
+      }
+    }
   }
   const handleUploadProfile = async (e) => {
     const selectedFile = e.target.files[0];
@@ -279,7 +316,7 @@ const Profile = () => {
         vertical={snackbar.vertical} 
         horizontal={snackbar.horizontal} 
         open={snackbar.open} 
-        close={handleClose} 
+        close={handleCloseSnackbar} 
         severityAlert={snackbar.severityAlert} 
         variantAlert={snackbar.variantAlert} 
         message={snackbar.message}
@@ -457,31 +494,63 @@ const Profile = () => {
                 <Grid container spacing={2} paddingBottom={2}>
                   <Grid item xs={12} sm={4} lg={4}>
                     <label style={{fontSize:'12px', fontWeight:'bold'}}>First Name</label>
-                    <TextField id="standard-basic" variant="outlined" value={user_fname} sx={{width: '100%'}} readOnly />
+                    <TextField id="user_fname" variant="outlined" value={user_fname} sx={{width: '100%'}} readOnly />
                   </Grid>
                   <Grid item xs={12} sm={4} lg={4}>
                     <label style={{fontSize:'12px', fontWeight:'bold'}}>Middle Name</label>
-                    <TextField id="standard-basic" variant="outlined" value={user_mname} sx={{width: '100%'}} readOnly />
+                    <TextField id="user_mname" variant="outlined" value={user_mname} sx={{width: '100%'}} readOnly />
                   </Grid>
                   <Grid item xs={12} sm={4} lg={4}>
                     <label style={{fontSize:'12px', fontWeight:'bold'}}>Last Name</label>
-                    <TextField id="standard-basic" variant="outlined" value={user_lname} sx={{width: '100%'}} readOnly />
+                    <TextField id="user_lname" variant="outlined" value={user_lname} sx={{width: '100%'}} readOnly />
                   </Grid>
                   <Grid item xs={12} sm={6} lg={6}>
                     <label style={{fontSize:'12px', fontWeight:'bold'}}>Email Address</label>
-                    <TextField id="standard-basic" variant="outlined" value={user_email} sx={{width: '100%'}} readOnly />
+                    <TextField id="user_email" variant="outlined" value={user_email} sx={{width: '100%'}} readOnly />
                   </Grid>
                   <Grid item xs={12} sm={6} lg={6}>
                     <label style={{fontSize:'12px', fontWeight:'bold'}}>Department</label>
-                    <TextField id="standard-basic" variant="outlined" value={user_dept} sx={{width: '100%'}} readOnly />
+                    <TextField id="user_dept" variant="outlined" value={user_dept} sx={{width: '100%'}} readOnly />
                   </Grid>
                   <Grid item xs={12} sm={6} lg={6}>
-                    <label style={{fontSize:'12px', fontWeight:'bold'}}>New Password</label>
-                    <TextField id="standard-basic" variant="outlined" sx={{width: '100%'}}/>
+                  <FormControl sx={{ width: '100%' }} variant="outlined">
+                  <label style={{fontSize:'12px', fontWeight:'bold'}}>New Password</label>
+                      <Input
+                      variant="outlined"
+                        id="standard-adornment-new-password"
+                        value={credential.newPassword || ''}
+                        type={showPassword ? 'text' : 'password'}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                            >
+                              {showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                          </InputAdornment>
+                        }  name="newPassword" onChange={handleCredential} required/>
+                  </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={6} lg={6}>
-                    <label style={{fontSize:'12px', fontWeight:'bold'}}>Confirm New Password</label>
-                    <TextField id="standard-basic" variant="outlined" sx={{width: '100%'}}/>
+                  <FormControl sx={{ width: '100%' }} variant="outlined">
+                  <label style={{fontSize:'12px', fontWeight:'bold'}}>Confirm New Password</label>
+                      <Input
+                      variant="outlined"
+                        id="standard-adornment-new-confirm-password"
+                        value={credential.newConfirmPassword || ''}
+                        type={showPassword ? 'text' : 'password'}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                            >
+                              {showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                          </InputAdornment>
+                        }  name="newConfirmPassword" onChange={handleCredential} required/>
+                  </FormControl>
                   </Grid>
                 </Grid>
                 <Button variant="contained" size="medium" sx={{backgroundColor: 'rgb(255, 51, 102)'}} onClick={handleUpdateProfile}>Save</Button>

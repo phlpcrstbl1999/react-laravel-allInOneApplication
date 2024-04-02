@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Dotenv\Exception\ValidationException;
 
 class UserController extends Controller
 {
@@ -20,7 +22,6 @@ class UserController extends Controller
     }
 
     public function uploadProfile(Request $request) {
-
         if ($request->hasFile('image')) {
             $uploadedFile = $request->file('image');
             $user_id = $request->user_id;
@@ -34,5 +35,21 @@ class UserController extends Controller
         }else {
             return response()->json(['error' => 'No file uploaded'], 400);
         }
+    }
+
+    public function updateProfile(Request $request) {
+        try {
+            $user = User::where('email', $request->email)->firstOrFail();
+            $hashedPassword = Hash::make($request->newPassword);
+            $user->password = $hashedPassword;
+            $user->save();
+            return response()->json(['message' => 'Update Successful'], 201);
+        }catch(ValidationException $e) {
+            return response()->json([
+                'message' => 'Update failed',
+                'errors' => $e,
+            ], 500);
+        }
+
     }
 }

@@ -26,3 +26,4 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/user', [UserController::class, 'getUserByToken']);
 Route::post('/user/upload', [UserController::class, 'uploadProfile']);
+Route::post('/user/update', [UserController::class, 'updateProfile']);
