@@ -37,6 +37,7 @@ import Tab from '@mui/material/Tab';
 import TextField from '@mui/material/TextField';
 import BasicSnackbar from '../../common/Snackbar/BasicSnackbar';
 import CryptoJS from 'crypto-js';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
 
 const drawerWidth = 240;
 
@@ -429,6 +430,27 @@ const Profile = () => {
             <ListItemText primary="Dashboard" sx={{ opacity: open ? 1 : 0}}/>
           </ListItemButton>
       </List>
+      <List>
+        <ListItemButton
+          sx={{
+            minHeight: 48,
+            justifyContent: open ? 'initial' : 'center',
+            px: 2.5,
+          }}
+          href="/helpdesk"
+        >
+              <ListItemIcon
+                sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                }}
+              >
+              <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary="Help Desk" sx={{ opacity: open ? 1 : 0}}/>
+            </ListItemButton>
+        </List>
       <Divider />
     </Drawer>
 

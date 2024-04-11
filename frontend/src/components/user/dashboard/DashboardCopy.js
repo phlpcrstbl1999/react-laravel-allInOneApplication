@@ -20,15 +20,13 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
-import BasicCard from '../common/BasicCard/BasicCard';
+import BasicCard from '../../common/BasicCard/BasicCard';
 import { Grid } from '@mui/material';
-import MainButton from '../common/MainButton/MainButton';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import BasicProgress from '../common/BasicProgress/BasicProgress';
+import BasicProgress from '../../common/BasicProgress/BasicProgress';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
@@ -102,7 +100,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 
 
-const Dashboard = () => {
+const DashboardCopy = () => {
   //React Hook / Declaring / Initializing
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -194,7 +192,6 @@ const Dashboard = () => {
           >
             <MenuIcon />
           </IconButton>
-            {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
             <Typography
             variant="h6"
             noWrap
@@ -232,16 +229,6 @@ const Dashboard = () => {
           gap: 1
           }}>
               {<Avatar alt={user_fname + ' ' + user_lname} src={user_profile_path} sx={{ width: 100, height: 100 }} />}
-              {/* <ListItemIcon
-                sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                    color: 'rgb(255, 255, 255)'
-                }}
-              >
-                <DashboardRoundedIcon />
-              </ListItemIcon> */}
               <Button
                 id="fade-button"
                 aria-controls={openAnchor ? 'fade-menu' : undefined}
@@ -275,28 +262,6 @@ const Dashboard = () => {
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
         </List>
-        <List sx={{ backgroundColor: 'rgb(35, 86, 181)'}}>
-        <ListItemButton
-          sx={{
-            minHeight: 48,
-            justifyContent: open ? 'initial' : 'center',
-            px: 2.5,
-          }}
-          href=""
-        >
-              <ListItemIcon
-                sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                    color: 'rgb(255, 255, 255)'
-                }}
-              >
-                <DashboardRoundedIcon />
-              </ListItemIcon>
-              <ListItemText primary="Dashboard" sx={{ opacity: open ? 1 : 0, color: 'rgb(255, 255, 255)' }}/>
-            </ListItemButton>
-        </List>
         <Divider />
         <List>
         <ListItemButton
@@ -305,7 +270,7 @@ const Dashboard = () => {
             justifyContent: open ? 'initial' : 'center',
             px: 2.5,
           }}
-          href="/helpdesk"
+          href="/dashboard"
         >
               <ListItemIcon
                 sx={{
@@ -314,10 +279,34 @@ const Dashboard = () => {
                     justifyContent: 'center',
                 }}
               >
-              <InboxIcon />
+                <DashboardRoundedIcon />
               </ListItemIcon>
-              <ListItemText primary="Help Desk" sx={{ opacity: open ? 1 : 0}}/>
+              <ListItemText primary="Dashboard" sx={{ opacity: open ? 1 : 0}}/>
             </ListItemButton>
+        </List>
+      
+        <List sx={{ backgroundColor: 'rgb(35, 86, 181)'}}>
+            <ListItem disablePadding sx={{ display: 'block' }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                    color: 'rgb(255, 255, 255)'
+                  }}
+                >
+                 <InboxIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Help Desk"} sx={{ opacity: open ? 1 : 0, color: 'rgb(255, 255, 255)'  }} />
+              </ListItemButton>
+            </ListItem>
         </List>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
@@ -327,30 +316,9 @@ const Dashboard = () => {
             <BasicCard message={"Welcome back!"} name={user_fname + ' ' + user_lname} />    
           </Grid>
         </Grid>
-        <Grid container sx={{mb: 3}} spacing={2}>
-          <Grid item xs={12} sm={6} lg={3}>
-            <MainButton appName={"Document Management System"} appDescription={`We are a community of developers prepping for coding interviews,
-        participate, chat with others and get better at interviewing.`}/>   
-          </Grid>
-          <Grid item xs={12} sm={6} lg={3}>
-            <MainButton appName={"QRCode Generator"} appDescription={`We are a community of developers prepping for coding interviews,
-        participate, chat with others and get better at interviewing.`}/>      
-          </Grid>
-          <Grid item xs={12} sm={6} lg={3}>
-            <MainButton appName={"Agents Portal"} appDescription={`We are a community of developers prepping for coding interviews,
-        participate, chat with others and get better at interviewing.`}/>    
-          </Grid>
-          <Grid item xs={12} sm={6} lg={3}>
-            <MainButton appName={"Clearance Processing"} appDescription={`We are a community of developers prepping for coding interviews,
-        participate, chat with others and get better at interviewing.`}/>      
-          </Grid>
-        </Grid>
-             
-              {/* <Dashboard /> */}
-
       </Box>
     </Box>
   );
 }
 
-export default Dashboard
+export default DashboardCopy
