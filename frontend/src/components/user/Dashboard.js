@@ -15,12 +15,10 @@ import MenuItem from '@mui/material/MenuItem';
 import Fade from '@mui/material/Fade';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import BasicCard from '../common/BasicCard/BasicCard';
 import { Grid } from '@mui/material';
@@ -119,7 +117,7 @@ const Dashboard = () => {
     profile_path: ''
   });
   const user_fname = userInfo ? userInfo.user_fname : '';
-  const user_mname = userInfo ? userInfo.user_mname : '';
+  // const user_mname = userInfo ? userInfo.user_mname : '';
   const user_lname = userInfo ? userInfo.user_lname : '';
   const user_profile_path = userInfo ? userInfo.profile_path : '';
   //Functions

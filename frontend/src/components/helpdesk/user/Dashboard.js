@@ -117,7 +117,7 @@ const Helpdesk = () => {
     profile_path: ''
   });
   const user_fname = userInfo ? userInfo.user_fname : '';
-  const user_mname = userInfo ? userInfo.user_mname : '';
+//   const user_mname = userInfo ? userInfo.user_mname : '';
   const user_lname = userInfo ? userInfo.user_lname : '';
   const user_profile_path = userInfo ? userInfo.profile_path : '';
   //Functions
