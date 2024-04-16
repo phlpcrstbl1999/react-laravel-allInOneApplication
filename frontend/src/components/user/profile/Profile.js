@@ -37,8 +37,7 @@ import Tab from '@mui/material/Tab';
 import TextField from '@mui/material/TextField';
 import BasicSnackbar from '../../common/Snackbar/BasicSnackbar';
 import CryptoJS from 'crypto-js';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-
+import HelpCenterRoundedIcon from '@mui/icons-material/HelpCenterRounded';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -446,7 +445,7 @@ const Profile = () => {
                     justifyContent: 'center',
                 }}
               >
-              <InboxIcon />
+              <HelpCenterRoundedIcon />
               </ListItemIcon>
               <ListItemText primary="Help Desk" sx={{ opacity: open ? 1 : 0}}/>
             </ListItemButton>

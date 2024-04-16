@@ -18,7 +18,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
+import HelpCenterRoundedIcon from '@mui/icons-material/HelpCenterRounded';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import BasicCard from '../common/BasicCard/BasicCard';
 import { Grid } from '@mui/material';
@@ -312,7 +312,7 @@ const Dashboard = () => {
                     justifyContent: 'center',
                 }}
               >
-              <InboxIcon />
+              <HelpCenterRoundedIcon />
               </ListItemIcon>
               <ListItemText primary="Help Desk" sx={{ opacity: open ? 1 : 0}}/>
             </ListItemButton>

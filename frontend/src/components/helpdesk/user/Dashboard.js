@@ -19,7 +19,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import BasicCard from '../../common/BasicCard/BasicCard';
 import { Grid } from '@mui/material';
@@ -30,6 +29,8 @@ import BasicProgress from '../../common/BasicProgress/BasicProgress';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
+import HelpdeskCard from './Card';
+import HelpCenterRoundedIcon from '@mui/icons-material/HelpCenterRounded';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -302,7 +303,7 @@ const Helpdesk = () => {
                     color: 'rgb(255, 255, 255)'
                   }}
                 >
-                 <InboxIcon />
+                 <HelpCenterRoundedIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Help Desk"} sx={{ opacity: open ? 1 : 0, color: 'rgb(255, 255, 255)'  }} />
               </ListItemButton>
@@ -313,7 +314,21 @@ const Helpdesk = () => {
         <DrawerHeader />
         <Grid container sx={{mb: 3}} spacing={2}>
           <Grid item xs={4}>
-            <BasicCard message={"Welcome back!"} name={user_fname + ' ' + user_lname} />    
+            <BasicCard name={"Lorem Ipsum"} />    
+          </Grid>
+        </Grid>
+        <Grid container sx={{mb: 3}} spacing={2}>
+          <Grid item xs={12} sm={6} lg={3} >
+              <HelpdeskCard name={"03"} message={"Lorem Ipsum"} backgroundColor={"#FF90BC"}/>   
+          </Grid>
+          <Grid item xs={12} sm={6} lg={3}>
+              <HelpdeskCard name={"12"} message={"Lorem Ipsum"} backgroundColor={"#FFC0D9"}/>    
+          </Grid>
+          <Grid item xs={12} sm={6} lg={3}>
+              <HelpdeskCard name={"02"} message={"Lorem Ipsum"} backgroundColor={"#F9F9E0"}/>     
+          </Grid>
+          <Grid item xs={12} sm={6} lg={3}>
+              <HelpdeskCard name={"21"} message={"Lorem Ipsum"} backgroundColor={"#8ACDD7"}/>    
           </Grid>
         </Grid>
       </Box>
