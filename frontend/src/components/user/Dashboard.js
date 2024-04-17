@@ -18,8 +18,8 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import HelpCenterRoundedIcon from '@mui/icons-material/HelpCenterRounded';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
+import { MdOutlineSupportAgent } from "react-icons/md";
 import BasicCard from '../common/BasicCard/BasicCard';
 import { Grid } from '@mui/material';
 import MainButton from '../common/MainButton/MainButton';
@@ -312,7 +312,7 @@ const Dashboard = () => {
                     justifyContent: 'center',
                 }}
               >
-              <HelpCenterRoundedIcon />
+              <MdOutlineSupportAgent style={{width: '25px', height: '25px'}} />
               </ListItemIcon>
               <ListItemText primary="Help Desk" sx={{ opacity: open ? 1 : 0}}/>
             </ListItemButton>

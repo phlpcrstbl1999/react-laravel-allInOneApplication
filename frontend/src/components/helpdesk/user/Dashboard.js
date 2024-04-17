@@ -31,6 +31,8 @@ import axios from 'axios';
 import CryptoJS from 'crypto-js';
 import HelpdeskCard from './Card';
 import HelpCenterRoundedIcon from '@mui/icons-material/HelpCenterRounded';
+import { MdOutlineSupportAgent } from "react-icons/md";
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -303,7 +305,7 @@ const Helpdesk = () => {
                     color: 'rgb(255, 255, 255)'
                   }}
                 >
-                 <HelpCenterRoundedIcon />
+                 <MdOutlineSupportAgent style={{width: '25px', height: '25px'}} />
                 </ListItemIcon>
                 <ListItemText primary={"Help Desk"} sx={{ opacity: open ? 1 : 0, color: 'rgb(255, 255, 255)'  }} />
               </ListItemButton>

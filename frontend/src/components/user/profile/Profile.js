@@ -19,6 +19,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
+import { MdOutlineSupportAgent } from "react-icons/md";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -37,7 +38,6 @@ import Tab from '@mui/material/Tab';
 import TextField from '@mui/material/TextField';
 import BasicSnackbar from '../../common/Snackbar/BasicSnackbar';
 import CryptoJS from 'crypto-js';
-import HelpCenterRoundedIcon from '@mui/icons-material/HelpCenterRounded';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -445,7 +445,7 @@ const Profile = () => {
                     justifyContent: 'center',
                 }}
               >
-              <HelpCenterRoundedIcon />
+              <MdOutlineSupportAgent style={{width: '25px', height: '25px'}} />
               </ListItemIcon>
               <ListItemText primary="Help Desk" sx={{ opacity: open ? 1 : 0}}/>
             </ListItemButton>
