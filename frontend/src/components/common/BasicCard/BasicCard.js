@@ -15,7 +15,7 @@ const BasicCard = ({message, name}) => {
             <Typography sx={{ fontSize: 14 }} gutterBottom>
             {message}
             </Typography>
-            <Typography variant="h5" component="div">
+            <Typography variant="h5" component="div" sx={{fontWeight: 'bold'}}>
             {name}
             </Typography>
         </CardContent>

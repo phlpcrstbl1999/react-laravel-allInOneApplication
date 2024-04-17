@@ -39,6 +39,7 @@ import MarkunreadRoundedIcon from '@mui/icons-material/MarkunreadRounded';
 import MarkEmailUnreadRoundedIcon from '@mui/icons-material/MarkEmailUnreadRounded';
 import MarkEmailReadRoundedIcon from '@mui/icons-material/MarkEmailReadRounded';
 import FolderSpecialRoundedIcon from '@mui/icons-material/FolderSpecialRounded';
+import TicketComponent from './TicketComponent';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -353,7 +354,22 @@ const Helpdesk = () => {
             <Tab icon={<MarkEmailReadRoundedIcon />} iconPosition="start" label="Resolved" value="4" />
           </TabList>
         </Box>
-        <TabPanel value="1">Item One</TabPanel>
+        <TabPanel value="1">
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={12} lg={12} >
+            <TicketComponent ticketNumber={"Ticket# 2024-IT001"} ticketTitle={"Help me fix my outlook"} ticketDescription={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."} ticketLink={"#"}/>   
+          </Grid>
+          <Grid item xs={12} sm={12} lg={12}>
+            <TicketComponent ticketNumber={"Ticket# 2024-IT002"} ticketTitle={"How to fix printer"} ticketDescription={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."} ticketLink={"#"}/>     
+          </Grid>
+          <Grid item xs={12} sm={12} lg={12}>
+            <TicketComponent ticketNumber={"Ticket# 2024-IT003"} ticketTitle={"Help me fix my outlook"} ticketDescription={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."} ticketLink={"#"}/>   
+          </Grid>
+          <Grid item xs={12} sm={12} lg={12}>
+            <TicketComponent ticketNumber={"Ticket# 2024-IT004"} ticketTitle={"How to fix printer"} ticketDescription={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."} ticketLink={"#"}/>     
+          </Grid>
+        </Grid>
+        </TabPanel>
         <TabPanel value="2">Item Two</TabPanel>
         <TabPanel value="3">Item Three</TabPanel>
         <TabPanel value="4">Item Three</TabPanel>
