@@ -31,7 +31,14 @@ import axios from 'axios';
 import CryptoJS from 'crypto-js';
 import HelpdeskCard from './Card';
 import { MdOutlineSupportAgent } from "react-icons/md";
-
+import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
+import MarkunreadRoundedIcon from '@mui/icons-material/MarkunreadRounded';
+import MarkEmailUnreadRoundedIcon from '@mui/icons-material/MarkEmailUnreadRounded';
+import MarkEmailReadRoundedIcon from '@mui/icons-material/MarkEmailReadRounded';
+import FolderSpecialRoundedIcon from '@mui/icons-material/FolderSpecialRounded';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -122,6 +129,11 @@ const Helpdesk = () => {
 //   const user_mname = userInfo ? userInfo.user_mname : '';
   const user_lname = userInfo ? userInfo.user_lname : '';
   const user_profile_path = userInfo ? userInfo.profile_path : '';
+  const [value, setValue] = useState('1');
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
   //Functions
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -332,6 +344,20 @@ const Helpdesk = () => {
               <HelpdeskCard name={"21"} message={"Lorem Ipsum"} backgroundColor={"#8ACDD7"}/>    
           </Grid>
         </Grid>
+        <TabContext value={value}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <TabList onChange={handleChange} aria-label="lab API tabs example">
+            <Tab icon={<FolderSpecialRoundedIcon />} iconPosition="start" label="All Tickets" value="1" />
+            <Tab icon={<MarkEmailUnreadRoundedIcon />} iconPosition="start" label="New" value="2" />
+            <Tab icon={<MarkunreadRoundedIcon />} iconPosition="start" label="On-Going" value="3" />
+            <Tab icon={<MarkEmailReadRoundedIcon />} iconPosition="start" label="Resolved" value="4" />
+          </TabList>
+        </Box>
+        <TabPanel value="1">Item One</TabPanel>
+        <TabPanel value="2">Item Two</TabPanel>
+        <TabPanel value="3">Item Three</TabPanel>
+        <TabPanel value="4">Item Three</TabPanel>
+      </TabContext>
       </Box>
     </Box>
   );
