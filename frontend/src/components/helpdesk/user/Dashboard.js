@@ -356,16 +356,16 @@ const Helpdesk = () => {
         </Box>
         <TabPanel value="1">
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={12} lg={12} >
+          <Grid item>
             <TicketComponent ticketNumber={"Ticket# 2024-IT001"} ticketTitle={"Help me fix my outlook"} ticketDescription={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."} ticketLink={"#"}/>   
           </Grid>
-          <Grid item xs={12} sm={12} lg={12}>
+          <Grid item>
             <TicketComponent ticketNumber={"Ticket# 2024-IT002"} ticketTitle={"How to fix printer"} ticketDescription={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."} ticketLink={"#"}/>     
           </Grid>
-          <Grid item xs={12} sm={12} lg={12}>
+          <Grid item>
             <TicketComponent ticketNumber={"Ticket# 2024-IT003"} ticketTitle={"Help me fix my outlook"} ticketDescription={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."} ticketLink={"#"}/>   
           </Grid>
-          <Grid item xs={12} sm={12} lg={12}>
+          <Grid item>
             <TicketComponent ticketNumber={"Ticket# 2024-IT004"} ticketTitle={"How to fix printer"} ticketDescription={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."} ticketLink={"#"}/>     
           </Grid>
         </Grid>
