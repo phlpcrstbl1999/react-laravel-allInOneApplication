@@ -39,8 +39,9 @@ import MarkunreadRoundedIcon from '@mui/icons-material/MarkunreadRounded';
 import MarkEmailUnreadRoundedIcon from '@mui/icons-material/MarkEmailUnreadRounded';
 import MarkEmailReadRoundedIcon from '@mui/icons-material/MarkEmailReadRounded';
 import FolderSpecialRoundedIcon from '@mui/icons-material/FolderSpecialRounded';
-import TicketComponent from './TicketComponent';
 import Modal from '@mui/material/Modal';
+import Datatable from '../../common/Datatable/Datatable';
+
 
 const style = {
   position: 'absolute',
@@ -125,6 +126,21 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const Helpdesk = () => {
   //React Hook / Declaring / Initializing
+  const [users, setUsers] = useState([]);
+  const columns = [
+    {
+      name: "id",
+    },
+    {
+      name: "firstName",
+    },
+    {
+      name: "lastName",
+    },
+    {
+      name: "gender",
+    },
+  ];
   const [openModal, setOpenModal] = useState(false);
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
@@ -179,10 +195,10 @@ const Helpdesk = () => {
   }
   useEffect(() => {
     setToken(localStorage.getItem('loginToken'));
-
     const fetchUserData = async () => {
       try {
         setLoading(true);
+        //getting user info
         const cachedData = localStorage.getItem('userInfo');
         if (cachedData) {
           const decryptedData = CryptoJS.AES.decrypt(cachedData, 'secret-key').toString(CryptoJS.enc.Utf8);
@@ -194,6 +210,11 @@ const Helpdesk = () => {
         setUserInfo(data);
         const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(data), 'secret-key').toString();
         localStorage.setItem('userInfo', encryptedData);
+
+        //getting tickets
+        const ticketResponse = await axios.get('https://dummyjson.com/users');
+        const ticketData = ticketResponse.data.users;
+        setUsers(ticketData);
       } catch(e) {
         console.log('error: ', e);
       } finally {
@@ -391,18 +412,9 @@ const Helpdesk = () => {
         </Box>
         <TabPanel value="1">
         <Grid container spacing={2}>
-          <Grid item>
-            <TicketComponent ticketNumber={"# 2024-IT001"} ticketTitle={"Help me fix my outlook"} ticketDescription={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."} ticketLink={"#"}/>   
-          </Grid>
-          <Grid item>
-            <TicketComponent ticketNumber={"# 2024-IT002"} ticketTitle={"How to fix printer"} ticketDescription={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."} ticketLink={"#"}/>     
-          </Grid>
-          <Grid item>
-            <TicketComponent ticketNumber={"# 2024-IT003"} ticketTitle={"Help me fix my outlook"} ticketDescription={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."} ticketLink={"#"}/>   
-          </Grid>
-          <Grid item>
-            <TicketComponent ticketNumber={"# 2024-IT004"} ticketTitle={"How to fix printer"} ticketDescription={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."} ticketLink={"#"}/>     
-          </Grid>
+          <Grid item xs={12}>
+          <Datatable title="Employees" data={users} columns={columns}/>
+        </Grid>
         </Grid>
         </TabPanel>
         <TabPanel value="2">Item Two</TabPanel>
