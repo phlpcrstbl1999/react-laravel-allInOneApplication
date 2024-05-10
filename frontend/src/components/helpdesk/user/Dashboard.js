@@ -40,6 +40,19 @@ import MarkEmailUnreadRoundedIcon from '@mui/icons-material/MarkEmailUnreadRound
 import MarkEmailReadRoundedIcon from '@mui/icons-material/MarkEmailReadRounded';
 import FolderSpecialRoundedIcon from '@mui/icons-material/FolderSpecialRounded';
 import TicketComponent from './TicketComponent';
+import Modal from '@mui/material/Modal';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -112,6 +125,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const Helpdesk = () => {
   //React Hook / Declaring / Initializing
+  const [openModal, setOpenModal] = useState(false);
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
+
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const openAnchor = Boolean(anchorEl);
@@ -346,27 +363,45 @@ const Helpdesk = () => {
           </Grid>
         </Grid>
         <TabContext value={value}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>         
+          <Modal
+            open={openModal}
+            onClose={handleCloseModal}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Text in a modal
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              </Typography>
+            </Box>
+          </Modal>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
             <Tab icon={<FolderSpecialRoundedIcon />} iconPosition="start" label="All Tickets" value="1" />
             <Tab icon={<MarkEmailUnreadRoundedIcon />} iconPosition="start" label="New" value="2" />
             <Tab icon={<MarkunreadRoundedIcon />} iconPosition="start" label="On-Going" value="3" />
             <Tab icon={<MarkEmailReadRoundedIcon />} iconPosition="start" label="Resolved" value="4" />
+            <div style={{display: 'flex', justifyContent:'right', alignItems: 'center', width: '100%', paddingRight: '20px'}}>
+              <Button onClick={handleOpenModal} sx={{display: 'flex', height: '75%'}} variant="contained">Create</Button>
+            </div>
           </TabList>
         </Box>
         <TabPanel value="1">
         <Grid container spacing={2}>
           <Grid item>
-            <TicketComponent ticketNumber={"Ticket# 2024-IT001"} ticketTitle={"Help me fix my outlook"} ticketDescription={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."} ticketLink={"#"}/>   
+            <TicketComponent ticketNumber={"# 2024-IT001"} ticketTitle={"Help me fix my outlook"} ticketDescription={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."} ticketLink={"#"}/>   
           </Grid>
           <Grid item>
-            <TicketComponent ticketNumber={"Ticket# 2024-IT002"} ticketTitle={"How to fix printer"} ticketDescription={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."} ticketLink={"#"}/>     
+            <TicketComponent ticketNumber={"# 2024-IT002"} ticketTitle={"How to fix printer"} ticketDescription={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."} ticketLink={"#"}/>     
           </Grid>
           <Grid item>
-            <TicketComponent ticketNumber={"Ticket# 2024-IT003"} ticketTitle={"Help me fix my outlook"} ticketDescription={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."} ticketLink={"#"}/>   
+            <TicketComponent ticketNumber={"# 2024-IT003"} ticketTitle={"Help me fix my outlook"} ticketDescription={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."} ticketLink={"#"}/>   
           </Grid>
           <Grid item>
-            <TicketComponent ticketNumber={"Ticket# 2024-IT004"} ticketTitle={"How to fix printer"} ticketDescription={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."} ticketLink={"#"}/>     
+            <TicketComponent ticketNumber={"# 2024-IT004"} ticketTitle={"How to fix printer"} ticketDescription={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."} ticketLink={"#"}/>     
           </Grid>
         </Grid>
         </TabPanel>
