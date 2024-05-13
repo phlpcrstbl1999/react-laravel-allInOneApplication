@@ -8,7 +8,8 @@ const Datatable = ({ title, data, columns}) => {
     elevation: 0,
     footer: true,
     rowsPerPage: 5,
-    rowsPerPageOptions: [5,10,20,50]
+    rowsPerPageOptions: [5,10,20,50],
+    responsive: 'standard'
   };
 
   const getMuiTheme = () => createTheme({

@@ -32,9 +32,8 @@ import CryptoJS from 'crypto-js';
 import HelpdeskCard from './Card';
 import { MdOutlineSupportAgent } from "react-icons/md";
 import Tab from '@mui/material/Tab';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
+import Tabs from '@mui/material/Tabs';
+import PropTypes from 'prop-types';
 import MarkunreadRoundedIcon from '@mui/icons-material/MarkunreadRounded';
 import MarkEmailUnreadRoundedIcon from '@mui/icons-material/MarkEmailUnreadRounded';
 import MarkEmailReadRoundedIcon from '@mui/icons-material/MarkEmailReadRounded';
@@ -42,7 +41,37 @@ import FolderSpecialRoundedIcon from '@mui/icons-material/FolderSpecialRounded';
 import Modal from '@mui/material/Modal';
 import Datatable from '../../common/Datatable/Datatable';
 
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
 
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
 const style = {
   position: 'absolute',
   top: '50%',
@@ -163,7 +192,7 @@ const Helpdesk = () => {
 //   const user_mname = userInfo ? userInfo.user_mname : '';
   const user_lname = userInfo ? userInfo.user_lname : '';
   const user_profile_path = userInfo ? userInfo.profile_path : '';
-  const [value, setValue] = useState('1');
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -383,7 +412,6 @@ const Helpdesk = () => {
               <HelpdeskCard name={"21"} message={"Lorem Ipsum"} backgroundColor={"#8ACDD7"}/>    
           </Grid>
         </Grid>
-        <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>         
           <Modal
             open={openModal}
@@ -400,27 +428,26 @@ const Helpdesk = () => {
               </Typography>
             </Box>
           </Modal>
-          <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab icon={<FolderSpecialRoundedIcon />} iconPosition="start" label="All Tickets" value="1" />
-            <Tab icon={<MarkEmailUnreadRoundedIcon />} iconPosition="start" label="New" value="2" />
-            <Tab icon={<MarkunreadRoundedIcon />} iconPosition="start" label="On-Going" value="3" />
-            <Tab icon={<MarkEmailReadRoundedIcon />} iconPosition="start" label="Resolved" value="4" />
-            <div style={{display: 'flex', justifyContent:'right', alignItems: 'center', width: '100%', paddingRight: '20px'}}>
-              <Button onClick={handleOpenModal} sx={{display: 'flex', height: '75%'}} variant="contained">Create</Button>
+          <div style={{display: 'flex', justifyContent:'right', alignItems: 'center', width: '100%'}}>
+              <Button onClick={handleOpenModal} sx={{height: '75%'}} variant="contained">Create</Button>
             </div>
-          </TabList>
+          <Tabs value={value} onChange={handleChange} aria-label="lab API tabs example" scrollButtons="auto" variant="scrollable">
+            <Tab icon={<FolderSpecialRoundedIcon />} iconPosition="start" label="All Tickets" {...a11yProps(0)} />
+            <Tab icon={<MarkEmailUnreadRoundedIcon />} iconPosition="start" label="New" {...a11yProps(1)} />
+            <Tab icon={<MarkunreadRoundedIcon />} iconPosition="start" label="On-Going" {...a11yProps(2)} />
+            <Tab icon={<MarkEmailReadRoundedIcon />} iconPosition="start" label="Resolved" {...a11yProps(3)} />
+          </Tabs>
         </Box>
-        <TabPanel value="1">
+        <TabPanel value={value} index={0}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
           <Datatable title="Employees" data={users} columns={columns}/>
         </Grid>
         </Grid>
         </TabPanel>
-        <TabPanel value="2">Item Two</TabPanel>
-        <TabPanel value="3">Item Three</TabPanel>
-        <TabPanel value="4">Item Three</TabPanel>
-      </TabContext>
+        <TabPanel value={value} index={1}>Item Two</TabPanel>
+        <TabPanel value={value} index={2}>Item Three</TabPanel>
+        <TabPanel value={value} index={3}>Item Four</TabPanel>
       </Box>
     </Box>
   );
