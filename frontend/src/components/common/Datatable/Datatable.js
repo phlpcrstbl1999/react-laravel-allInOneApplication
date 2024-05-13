@@ -4,7 +4,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 const Datatable = ({ title, data, columns}) => {
   const options = {
     filterType: 'checkbox',
-    selectableRows: false,
+    selectableRows: 'none',
     elevation: 0,
     footer: true,
     rowsPerPage: 5,

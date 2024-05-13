@@ -41,7 +41,7 @@ import FolderSpecialRoundedIcon from '@mui/icons-material/FolderSpecialRounded';
 import Modal from '@mui/material/Modal';
 import Datatable from '../../common/Datatable/Datatable';
 
-function TabPanel(props) {
+function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
@@ -54,13 +54,13 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          <div>{children}</div>
         </Box>
       )}
     </div>
   );
 }
-TabPanel.propTypes = {
+CustomTabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.number.isRequired,
   value: PropTypes.number.isRequired,
@@ -438,16 +438,16 @@ const Helpdesk = () => {
             <Tab icon={<MarkEmailReadRoundedIcon />} iconPosition="start" label="Resolved" {...a11yProps(3)} />
           </Tabs>
         </Box>
-        <TabPanel value={value} index={0}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-          <Datatable title="Employees" data={users} columns={columns}/>
-        </Grid>
-        </Grid>
-        </TabPanel>
-        <TabPanel value={value} index={1}>Item Two</TabPanel>
-        <TabPanel value={value} index={2}>Item Three</TabPanel>
-        <TabPanel value={value} index={3}>Item Four</TabPanel>
+        <CustomTabPanel value={value} index={0}>
+          <Grid container>
+              <Grid item xs={12}>
+                <Datatable title="Employees" data={users} columns={columns}/>
+            </Grid>
+          </Grid>
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={1}>Item Two</CustomTabPanel>
+        <CustomTabPanel value={value} index={2}>Item Three</CustomTabPanel>
+        <CustomTabPanel value={value} index={3}>Item Four</CustomTabPanel>
       </Box>
     </Box>
   );
