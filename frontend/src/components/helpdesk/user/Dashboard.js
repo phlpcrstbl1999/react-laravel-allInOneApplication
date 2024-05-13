@@ -53,7 +53,7 @@ function CustomTabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 1 }}>
           <div>{children}</div>
         </Box>
       )}
@@ -72,6 +72,7 @@ function a11yProps(index) {
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -83,6 +84,7 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
