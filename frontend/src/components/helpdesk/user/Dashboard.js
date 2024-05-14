@@ -447,9 +447,27 @@ const Helpdesk = () => {
             </Grid>
           </Grid>
         </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>Item Two</CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>Item Three</CustomTabPanel>
-        <CustomTabPanel value={value} index={3}>Item Four</CustomTabPanel>
+        <CustomTabPanel value={value} index={1}>
+           <Grid container>
+              <Grid item xs={12}>
+                <Datatable title="Employees" data={users} columns={columns}/>
+            </Grid>
+          </Grid>
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={2}>
+           <Grid container>
+              <Grid item xs={12}>
+                <Datatable title="Employees" data={users} columns={columns}/>
+            </Grid>
+          </Grid>
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={3}>
+           <Grid container>
+              <Grid item xs={12}>
+                <Datatable title="Employees" data={users} columns={columns}/>
+            </Grid>
+          </Grid>
+        </CustomTabPanel>
       </Box>
     </Box>
   );
