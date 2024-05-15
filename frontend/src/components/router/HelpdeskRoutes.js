@@ -2,7 +2,7 @@ import React from 'react'
 import { Routes, Route } from 'react-router-dom'; 
 import UserAuthGuard from './UserAuthGuard';
 import Helpdesk from '../helpdesk/user/Dashboard';
-import TicketDescription from '../helpdesk/user/TicketDescription';
+import TicketDescription from '../helpdesk/user/TicketDetails';
 
 const HelpdeskRoutes = () => {
   return (

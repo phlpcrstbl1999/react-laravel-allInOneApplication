@@ -29,7 +29,7 @@ import BasicProgress from '../../common/BasicProgress/BasicProgress';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
-import HelpdeskCard from './Card';
+import HelpdeskCard from './common/Card';
 import { MdOutlineSupportAgent } from "react-icons/md";
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
@@ -38,8 +38,8 @@ import MarkunreadRoundedIcon from '@mui/icons-material/MarkunreadRounded';
 import MarkEmailUnreadRoundedIcon from '@mui/icons-material/MarkEmailUnreadRounded';
 import MarkEmailReadRoundedIcon from '@mui/icons-material/MarkEmailReadRounded';
 import FolderSpecialRoundedIcon from '@mui/icons-material/FolderSpecialRounded';
-import Modal from '@mui/material/Modal';
 import Datatable from '../../common/Datatable/Datatable';
+import TicketModal from './common/TicketModal';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -72,18 +72,6 @@ function a11yProps(index) {
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
 
 const drawerWidth = 240;
 
@@ -246,7 +234,6 @@ const Helpdesk = () => {
         const ticketResponse = await axios.get('https://dummyjson.com/users?limit=100');
         const ticketData = ticketResponse.data.users;
         setUsers(ticketData);
-        console.log(ticketData);
       } catch(e) {
         console.log('error: ', e);
       } finally {
@@ -416,21 +403,13 @@ const Helpdesk = () => {
           </Grid>
         </Grid>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>         
-          <Modal
-            open={openModal}
-            onClose={handleCloseModal}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box sx={style}>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                Text in a modal
-              </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              </Typography>
-            </Box>
-          </Modal>
+          <TicketModal
+            openModal={openModal}
+            closeModal={handleCloseModal}
+            modalTitle={"Text in a modal"}
+            modalContent={"Duis mollis, est non commodo luctus, nisi erat porttitor ligula."
+            }
+          />
           <div style={{display: 'flex', justifyContent:'right', alignItems: 'center', width: '100%'}}>
               <Button onClick={handleOpenModal} sx={{height: '75%'}} variant="contained">Create</Button>
             </div>
