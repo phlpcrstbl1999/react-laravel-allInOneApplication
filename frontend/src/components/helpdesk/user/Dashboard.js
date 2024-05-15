@@ -243,9 +243,10 @@ const Helpdesk = () => {
         localStorage.setItem('userInfo', encryptedData);
 
         //getting tickets
-        const ticketResponse = await axios.get('https://dummyjson.com/users');
+        const ticketResponse = await axios.get('https://dummyjson.com/users?limit=100');
         const ticketData = ticketResponse.data.users;
         setUsers(ticketData);
+        console.log(ticketData);
       } catch(e) {
         console.log('error: ', e);
       } finally {
@@ -354,7 +355,7 @@ const Helpdesk = () => {
             justifyContent: open ? 'initial' : 'center',
             px: 2.5,
           }}
-          href="/dashboard"
+          href="/"
         >
               <ListItemIcon
                 sx={{

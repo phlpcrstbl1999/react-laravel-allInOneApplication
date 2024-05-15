@@ -46,7 +46,7 @@ const Login = () => {
         const message = data.message;
         setSnackbar({...snackbar, open: true, severityAlert: 'success', message: message});
         localStorage.setItem('loginToken', data.access_token);
-        navigate('/dashboard');
+        navigate('/');
       } catch(e) {
         let errorMessage = 'An error occurred';
         if (e.response && e.response.data && e.response.data.message) {

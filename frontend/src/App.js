@@ -9,9 +9,9 @@ import HelpdeskRoutes from './components/router/HelpdeskRoutes';
 function App() {
   return (
     <div className="App">
-     <Router>
+      <Router>
         <Routes>
-          <Route path="/dashboard" element={<UserAuthGuard><Dashboard /></UserAuthGuard>} />
+          <Route path="/" element={<UserAuthGuard><Dashboard /></UserAuthGuard>} />
           <Route path="/helpdesk/*" element={<HelpdeskRoutes />} />
           <Route path="/user/*" element={<UserRoutes />} />
           <Route path="/authentication/*" element={<AuthenticationRouter />} />
