@@ -162,7 +162,11 @@ const Helpdesk = () => {
   ];
   const [openModal, setOpenModal] = useState(false);
   const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => setOpenModal(false);
+  const handleCloseModal = (event, reason) => {
+    if(reason !== "backdropClick") {
+      setOpenModal(false); 
+    }
+  };
 
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -406,9 +410,7 @@ const Helpdesk = () => {
           <TicketModal
             openModal={openModal}
             closeModal={handleCloseModal}
-            modalTitle={"Text in a modal"}
-            modalContent={"Duis mollis, est non commodo luctus, nisi erat porttitor ligula."
-            }
+            modalTitle={"Create"}
           />
           <div style={{display: 'flex', justifyContent:'right', alignItems: 'center', width: '100%'}}>
               <Button onClick={handleOpenModal} sx={{height: '75%'}} variant="contained">Create</Button>
