@@ -7,7 +7,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-const MainButton = ({appName, appDescription}) => {
+const MainButton = ({appName, appDescription, link}) => {
   return (
     <Card
     variant="outlined"
@@ -37,9 +37,9 @@ const MainButton = ({appName, appDescription}) => {
     </CardContent>
     <CardActions sx={{ p: 'auto' }}>
       <IconButton variant="outlined" color="neutral" sx={{ mr: 'auto' }}>
-        <FavoriteBorder />
+        {/* <FavoriteBorder /> */}
       </IconButton>
-      <Button variant="contained">
+      <Button variant="contained" href={link}>
         Open
       </Button>
     </CardActions>

@@ -297,7 +297,7 @@ const Dashboard = () => {
         </List>
         <Divider />
         <List>
-        <ListItemButton
+        {/* <ListItemButton
           sx={{
             minHeight: 48,
             justifyContent: open ? 'initial' : 'center',
@@ -315,7 +315,7 @@ const Dashboard = () => {
               <MdOutlineSupportAgent style={{width: '25px', height: '25px'}} />
               </ListItemIcon>
               <ListItemText primary="Help Desk" sx={{ opacity: open ? 1 : 0}}/>
-            </ListItemButton>
+            </ListItemButton> */}
         </List>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
@@ -326,9 +326,13 @@ const Dashboard = () => {
           </Grid>
         </Grid>
         <Grid container sx={{mb: 3}} spacing={2}>
-          <Grid item xs={12} sm={6} lg={3}>
-            <MainButton appName={"Document Management System"} appDescription={`We are a community of developers prepping for coding interviews,
-        participate, chat with others and get better at interviewing.`}/>   
+        <Grid item xs={12} sm={6} lg={3}>
+            <MainButton appName={"Help Desk"} appDescription={`A support service that assists users with troubleshooting, technical issues, 
+              and IT-related inquiries to ensure efficient operation of technology systems.`} link={"/helpdesk"}/>      
+          </Grid>
+          {/* <Grid item xs={12} sm={6} lg={3}>
+            <MainButton appName={"Document Management System"} appDescription={`A digital solution that stores, manages, and tracks electronic documents, 
+              enabling efficient retrieval, secure access, and streamlined collaboration.`}/>   
           </Grid>
           <Grid item xs={12} sm={6} lg={3}>
             <MainButton appName={"QRCode Generator"} appDescription={`We are a community of developers prepping for coding interviews,
@@ -341,7 +345,7 @@ const Dashboard = () => {
           <Grid item xs={12} sm={6} lg={3}>
             <MainButton appName={"Clearance Processing"} appDescription={`We are a community of developers prepping for coding interviews,
         participate, chat with others and get better at interviewing.`}/>      
-          </Grid>
+          </Grid> */}
         </Grid>
              
               {/* <Dashboard /> */}
