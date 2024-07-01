@@ -81,28 +81,6 @@ const TicketModal = ({openModal, closeModal, modalTitle}) => {
               </Select>
               </Grid>
               <Grid item xs={12} sm={6} lg={6} >
-                <label>Subject</label>
-                <TextField
-                  required
-                  id="standard-required"
-                  variant="outlined"
-                  sx={{width: '100%'}}
-                />
-              </Grid>
-            </Grid>
-              <Grid container sx={{mb: 2}} spacing={2}>
-                <Grid item xs={12} sm={6} lg={12} >
-                  <label>Description</label>
-                  <TextField
-                    id="outlined-multiline-static"
-                    multiline
-                    rows={4}
-                    sx={{width: '100%'}}
-                  />
-                </Grid>
-              </Grid>
-              <Grid container sx={{mb: 2}} spacing={2}>  
-                <Grid item xs={12} sm={6} lg={6} >
                   <label>Priority</label>
                   <Select
                     value={category}
@@ -119,6 +97,20 @@ const TicketModal = ({openModal, closeModal, modalTitle}) => {
                     <MenuItem value={'H'}>High</MenuItem>
                   </Select>
                 </Grid>
+            </Grid>
+              <Grid container sx={{mb: 2}} spacing={2}>
+                <Grid item xs={12} sm={6} lg={12} >
+                  <label>Description</label>
+                  <TextField
+                    id="outlined-multiline-static"
+                    multiline
+                    rows={4}
+                    sx={{width: '100%'}}
+                  />
+                </Grid>
+              </Grid>
+              <Grid container sx={{mb: 2}} spacing={2}>  
+
                 <Grid item xs={12} sm={6} lg={6} >
                   <label>Attachment</label>
                   <OutlinedInput
