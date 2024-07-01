@@ -23,7 +23,6 @@ class AuthController extends Controller
                 ], 404);
             }
 
-            $name = $user->user_mname;
             $activeTag = $user->active_tag;
             $email = $user->email;
 

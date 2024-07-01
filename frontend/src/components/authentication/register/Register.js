@@ -36,7 +36,7 @@ const Register = () => {
     } else {
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:8000/api/auth/verify', credential);
+      const response = await axios.post('http://192.20.4.92:8000/api/auth/verify', credential);
       const data = response.data;
       const message = data.message;
       setSnackbar({...snackbar, open: true, severityAlert: 'success', message: message});
@@ -56,7 +56,7 @@ const Register = () => {
     }else {
       setLoading(true);
       try {
-        const response = await axios.post('http://localhost:8000/api/auth/register', credential);
+        const response = await axios.post('http://192.20.4.92:8000/api/auth/register', credential);
         const data = response.data;
         const message = data.message;
         setSnackbar({...snackbar, open: true, severityAlert: 'success', message: message});
@@ -99,7 +99,7 @@ const Register = () => {
         try {
           setLoading(true);
           setHideRegisterComponent(true);
-          const response = await axios.post('http://localhost:8000/api/auth/verifyEmail', {token});
+          const response = await axios.post('http://192.20.4.92:8000/api/auth/verifyEmail', {token});
           const data = response.data;
           setCredential({ email: data.email });
         } catch (e) {
