@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class TicketController extends Controller
 {
     public function getTicket(Request $request) {
-        $tickets =Ticket::where('email', $request->email)->get();
+        $tickets = Ticket::where('email', $request->email)->get();
         if ($tickets->isEmpty()) {
             return response()->json(['message' => 'No ticket found'], 404);
         }

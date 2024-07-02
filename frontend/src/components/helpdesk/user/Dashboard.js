@@ -145,20 +145,44 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const Helpdesk = () => {
   //React Hook / Declaring / Initializing
-  const [users, setUsers] = useState([]);
+  const [tickets, setTickets] = useState([]);
   const columns = [
     {
-      name: "id",
+      name: "ticket_id",
     },
     {
-      name: "firstName",
+      name: "type",
     },
     {
-      name: "lastName",
+      name: "description",
     },
     {
-      name: "gender",
+      name: "priority",
     },
+    {
+      name: "status",
+    },
+    {
+      name: "created_at",
+    },
+    { 
+      name: 'actions', 
+      label: 'Actions', 
+      options: {
+        customBodyRender: (value, tableMeta, updateValue) => {
+          const ticketId = tableMeta.rowData[0];
+          return (
+            <Button 
+              variant="contained" 
+              color="primary" 
+              onClick={() => alert(ticketId)}
+            >
+              View Ticket
+            </Button>
+          );
+        }
+      }
+    }
   ];
   const [openModal, setOpenModal] = useState(false);
   const handleOpenModal = () => setOpenModal(true);
@@ -180,11 +204,13 @@ const Helpdesk = () => {
     user_fname: '',
     user_mname: '',
     user_lname: '',
+    email: '',
     profile_path: ''
   });
   const user_fname = userInfo ? userInfo.user_fname : '';
 //   const user_mname = userInfo ? userInfo.user_mname : '';
   const user_lname = userInfo ? userInfo.user_lname : '';
+  const user_email = userInfo ? userInfo.email : '';
   const user_profile_path = userInfo ? userInfo.profile_path : '';
   const [value, setValue] = useState(0);
 
@@ -233,11 +259,6 @@ const Helpdesk = () => {
         setUserInfo(data);
         const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(data), 'secret-key').toString();
         localStorage.setItem('userInfo', encryptedData);
-
-        //getting tickets
-        const ticketResponse = await axios.get('https://dummyjson.com/users?limit=100');
-        const ticketData = ticketResponse.data.users;
-        setUsers(ticketData);
       } catch(e) {
         console.log('error: ', e);
       } finally {
@@ -250,6 +271,25 @@ const Helpdesk = () => {
       setUserInfo(null); // Reset user info if token is not available
     }
   }, [token]);
+  
+  useEffect(() => {
+    const fetchTickets = async () => {
+      if (user_email) {
+        try {
+          setLoading(true);
+          const ticketResponse = await axios.post('http://192.20.4.92:8000/api/helpdesk/ticket', { email: user_email });
+          const ticketData = ticketResponse.data;
+          setTickets(ticketData);
+          console.log(ticketData);
+        } catch(e) {
+          console.log('error: ', e);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+    fetchTickets();
+  }, [user_email]);
   return (
     <Box sx={{ display: 'flex' }}>
       {loading === true ? <BasicProgress /> : null} 
@@ -425,28 +465,28 @@ const Helpdesk = () => {
         <CustomTabPanel value={value} index={0}>
           <Grid container>
               <Grid item xs={12}>
-                <Datatable title="Employees" data={users} columns={columns}/>
+              <Datatable title="Tickets" data={tickets} columns={columns}/>
             </Grid>
           </Grid>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
            <Grid container>
               <Grid item xs={12}>
-                <Datatable title="Employees" data={users} columns={columns}/>
+                <Datatable title="Employees" data={tickets} columns={columns}/>
             </Grid>
           </Grid>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
            <Grid container>
               <Grid item xs={12}>
-                <Datatable title="Employees" data={users} columns={columns}/>
+                <Datatable title="Employees" data={tickets} columns={columns}/>
             </Grid>
           </Grid>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={3}>
            <Grid container>
               <Grid item xs={12}>
-                <Datatable title="Employees" data={users} columns={columns}/>
+                <Datatable title="Employees" data={tickets} columns={columns}/>
             </Grid>
           </Grid>
         </CustomTabPanel>
