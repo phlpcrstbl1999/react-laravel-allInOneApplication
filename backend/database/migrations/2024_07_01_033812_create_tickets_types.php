@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('profile_path')->nullable();
+        Schema::create('categories', function (Blueprint $table) {
+            $table->bigIncrements('categorie_id');
+            $table->string('categorie');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +23,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('types');
+
     }
 };
