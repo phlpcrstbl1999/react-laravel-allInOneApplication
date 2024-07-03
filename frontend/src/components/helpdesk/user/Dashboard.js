@@ -452,15 +452,17 @@ const Helpdesk = () => {
             closeModal={handleCloseModal}
             modalTitle={"Create"}
           />
-          <div style={{display: 'flex', justifyContent:'right', alignItems: 'center', width: '100%'}}>
-              <Button onClick={handleOpenModal} sx={{height: '75%'}} variant="contained">Create</Button>
-            </div>
+      
           <Tabs value={value} onChange={handleChange} aria-label="lab API tabs example" scrollButtons="auto" variant="scrollable">
             <Tab icon={<FolderSpecialRoundedIcon />} iconPosition="start" label="All Tickets" {...a11yProps(0)} />
             <Tab icon={<MarkEmailUnreadRoundedIcon />} iconPosition="start" label="New" {...a11yProps(1)} />
             <Tab icon={<MarkunreadRoundedIcon />} iconPosition="start" label="On-Going" {...a11yProps(2)} />
             <Tab icon={<MarkEmailReadRoundedIcon />} iconPosition="start" label="Resolved" {...a11yProps(3)} />
+            <div style={{display: 'flex', justifyContent:'right', alignItems: 'center', width: '100%'}}>
+              <Button onClick={handleOpenModal} sx={{height: '50%'}} variant="contained">Create</Button>
+            </div>
           </Tabs>
+                  
         </Box>
         <CustomTabPanel value={value} index={0}>
           <Grid container>
