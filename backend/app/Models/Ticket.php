@@ -26,9 +26,7 @@ class Ticket extends Model
         'close_date',
         'priority',
         'assignee',
-        'attachment_path',
-        'created_at',
-        'updated_at'
+        'attachment_path'
     ];
 
     /**
