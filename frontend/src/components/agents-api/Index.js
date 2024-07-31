@@ -15,13 +15,13 @@ import MenuItem from '@mui/material/MenuItem';
 import Fade from '@mui/material/Fade';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import BasicCard from '../common/BasicCard/BasicCard';
 import { Grid } from '@mui/material';
-import MainButton from '../common/MainButton/MainButton';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -29,6 +29,9 @@ import BasicProgress from '../common/BasicProgress/BasicProgress';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
+import ApiRoundedIcon from '@mui/icons-material/ApiRounded';
+import Datatable from '../common/Datatable/Datatable';
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -99,8 +102,33 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 
 
-const Dashboard = () => {
+const AgentsApi = () => {
   //React Hook / Declaring / Initializing
+  const [tickets, setTickets] = useState([]);
+  const columns = [
+    {
+      name: "ticket_id",
+      label: "license id"
+    },
+    {
+      name: "type",
+      label: "agent type"
+    },
+    {
+      name: "description",
+      label: "full name"
+    },
+    {
+      name: "priority",
+    },
+    {
+      name: "status",
+    },
+    {
+      name: "created_at",
+    }
+  ];
+
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const openAnchor = Boolean(anchorEl);
@@ -113,12 +141,15 @@ const Dashboard = () => {
     user_fname: '',
     user_mname: '',
     user_lname: '',
+    email: '',
     profile_path: ''
   });
   const user_fname = userInfo ? userInfo.user_fname : '';
-  // const user_mname = userInfo ? userInfo.user_mname : '';
+//   const user_mname = userInfo ? userInfo.user_mname : '';
   const user_lname = userInfo ? userInfo.user_lname : '';
+  const user_email = userInfo ? userInfo.email : '';
   const user_profile_path = userInfo ? userInfo.profile_path : '';
+
   //Functions
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -146,10 +177,10 @@ const Dashboard = () => {
   }
   useEffect(() => {
     setToken(localStorage.getItem('loginToken'));
-
     const fetchUserData = async () => {
       try {
         setLoading(true);
+        //getting user info
         const cachedData = localStorage.getItem('userInfo');
         if (cachedData) {
           const decryptedData = CryptoJS.AES.decrypt(cachedData, 'secret-key').toString(CryptoJS.enc.Utf8);
@@ -173,11 +204,30 @@ const Dashboard = () => {
       setUserInfo(null); // Reset user info if token is not available
     }
   }, [token]);
+  
+  useEffect(() => {
+    const fetchTickets = async () => {
+      if (user_email) {
+        try {
+          setLoading(true);
+          const ticketResponse = await axios.post('http://192.20.4.92:8000/api/helpdesk/ticket', { email: user_email });
+          const ticketData = ticketResponse.data;
+          setTickets(ticketData);
+          console.log(ticketData);
+        } catch(e) {
+          console.log('error: ', e);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+    fetchTickets();
+  }, [user_email]);
   return (
     <Box sx={{ display: 'flex' }}>
       {loading === true ? <BasicProgress /> : null} 
       <CssBaseline />
-      <AppBar position="fixed" open={open} sx={{ backgroundColor: 'rgb(35, 86, 182)'}}>
+      <AppBar position="fixed" open={open} sx={{ backgroundColor: 'rgb(35, 86, 181)'}}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -191,7 +241,6 @@ const Dashboard = () => {
           >
             <MenuIcon />
           </IconButton>
-            {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
             <Typography
             variant="h6"
             noWrap
@@ -229,16 +278,6 @@ const Dashboard = () => {
           gap: 1
           }}>
               {<Avatar alt={user_fname + ' ' + user_lname} src={user_profile_path} sx={{ width: 100, height: 100 }} />}
-              {/* <ListItemIcon
-                sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                    color: 'rgb(255, 255, 255)'
-                }}
-              >
-                <DashboardRoundedIcon />
-              </ListItemIcon> */}
               <Button
                 id="fade-button"
                 aria-controls={openAnchor ? 'fade-menu' : undefined}
@@ -272,89 +311,69 @@ const Dashboard = () => {
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
         </List>
-        <List sx={{ backgroundColor: 'rgb(35, 86, 181)'}}>
+        <Divider />
+        <List>
         <ListItemButton
           sx={{
             minHeight: 48,
             justifyContent: open ? 'initial' : 'center',
             px: 2.5,
           }}
-          href=""
+          href="/"
         >
               <ListItemIcon
                 sx={{
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
                     justifyContent: 'center',
-                    color: 'rgb(255, 255, 255)'
                 }}
               >
                 <DashboardRoundedIcon />
               </ListItemIcon>
-              <ListItemText primary="Dashboard" sx={{ opacity: open ? 1 : 0, color: 'rgb(255, 255, 255)' }}/>
+              <ListItemText primary="Dashboard" sx={{ opacity: open ? 1 : 0}}/>
             </ListItemButton>
         </List>
-        <Divider />
-        <List>
-        {/* <ListItemButton
-          sx={{
-            minHeight: 48,
-            justifyContent: open ? 'initial' : 'center',
-            px: 2.5,
-          }}
-          href="/helpdesk"
-        >
-              <ListItemIcon
+      
+        <List sx={{ backgroundColor: 'rgb(35, 86, 181)'}}>
+            <ListItem disablePadding sx={{ display: 'block' }}>
+              <ListItemButton
                 sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
                     justifyContent: 'center',
-                }}
-              >
-              <MdOutlineSupportAgent style={{width: '25px', height: '25px'}} />
-              </ListItemIcon>
-              <ListItemText primary="Help Desk" sx={{ opacity: open ? 1 : 0}}/>
-            </ListItemButton> */}
+                    color: 'rgb(255, 255, 255)'
+                  }}
+                >
+                 <ApiRoundedIcon style={{width: '25px', height: '25px'}} />
+                </ListItemIcon>
+                <ListItemText primary={"Agents API"} sx={{ opacity: open ? 1 : 0, color: 'rgb(255, 255, 255)'  }} />
+              </ListItemButton>
+            </ListItem>
         </List>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         <Grid container sx={{mb: 3}} spacing={2}>
           <Grid item xs={4}>
-            <BasicCard message={"Welcome back!"} name={user_fname + ' ' + user_lname} />    
+            <BasicCard name={"IC Licensed Insurance Agents API"} />    
           </Grid>
         </Grid>
-        <Grid container sx={{mb: 3}} spacing={2}>
-        <Grid item xs={12} sm={6} lg={3}>
-            <MainButton appName={"Help Desk"} appDescription={`A support service that assists users with troubleshooting, technical issues, 
-              and IT-related inquiries to ensure efficient operation of technology systems.`} link={"/helpdesk"}/>      
-          </Grid>
-          <Grid item xs={12} sm={6} lg={3}>
-            <MainButton appName={"IC Licensed Insurance Agents API"} appDescription={`An API created by the Insurance Commission to share the list of IC Insurance Agents datasets.`} link={"/agents-api"}/>      
-          </Grid>
-          {/* <Grid item xs={12} sm={6} lg={3}>
-            <MainButton appName={"Document Management System"} appDescription={`A digital solution that stores, manages, and tracks electronic documents, 
-              enabling efficient retrieval, secure access, and streamlined collaboration.`}/>   
-          </Grid>
-          <Grid item xs={12} sm={6} lg={3}>
-            <MainButton appName={"QRCode Generator"} appDescription={`We are a community of developers prepping for coding interviews,
-        participate, chat with others and get better at interviewing.`}/>      
-          </Grid>
-          <Grid item xs={12} sm={6} lg={3}>
-            <MainButton appName={"Agents Portal"} appDescription={`We are a community of developers prepping for coding interviews,
-        participate, chat with others and get better at interviewing.`}/>    
-          </Grid>
-          <Grid item xs={12} sm={6} lg={3}>
-            <MainButton appName={"Clearance Processing"} appDescription={`We are a community of developers prepping for coding interviews,
-        participate, chat with others and get better at interviewing.`}/>      
-          </Grid> */}
-        </Grid>
-             
-              {/* <Dashboard /> */}
 
+          <Grid container>
+              <Grid item xs={12}>
+              <Datatable title="Agents" data={tickets} columns={columns}/>
+            </Grid>
+          </Grid>
       </Box>
     </Box>
   );
 }
 
-export default Dashboard
+export default AgentsApi

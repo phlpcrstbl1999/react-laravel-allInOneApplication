@@ -6,6 +6,7 @@ import AuthenticationRouter from './components/router/AuthenticationRoutes';
 import Dashboard from './components/user/Dashboard';
 import UserAuthGuard from './components/router/UserAuthGuard';
 import HelpdeskRoutes from './components/router/HelpdeskRoutes';
+import AgentsApiRoutes from './components/router/AgentsApiRoutes';
 function App() {
   return (
     <div className="App">
@@ -15,6 +16,7 @@ function App() {
           <Route path="/helpdesk/*" element={<HelpdeskRoutes />} />
           <Route path="/user/*" element={<UserRoutes />} />
           <Route path="/authentication/*" element={<AuthenticationRouter />} />
+          <Route path="/agents-api/*" element={<AgentsApiRoutes />} />
         </Routes>
       </Router>
     </div>
