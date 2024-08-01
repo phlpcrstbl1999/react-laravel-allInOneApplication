@@ -164,7 +164,7 @@ const AgentsApi = () => {
   const handleAuthorize = async () => {
     try {
       setLoading(true);
-      const response = await axios.post('http://192.20.4.92:8000/api/proxy/agents/login', {}, {
+      const response = await axios.get('http://192.20.4.92:8000/api/proxy/agents/login',{
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
@@ -207,7 +207,7 @@ const AgentsApi = () => {
   const handleGenerate = async () => {
     try {
       setLoading(true);
-      const response = await axios.post('http://192.20.4.92:8000/api/agents', {}, {
+      const response = await axios.get('http://192.20.4.92:8000/api/agents', {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',

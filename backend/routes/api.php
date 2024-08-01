@@ -32,6 +32,6 @@ Route::post('/user/upload', [UserController::class, 'uploadProfile']);
 Route::post('/user/update', [UserController::class, 'updateProfile']);
 Route::post('/helpdesk/ticket', [TicketController::class, 'getTicket']);
 Route::post('/agent/key', [APIKeyController::class, 'getApiKey']);
-Route::post('/proxy/agents/login', [APIKeyController::class, 'proxyLogin']);
-Route::post('/agents', [APIKeyController::class, 'getAgents']);
+Route::get('/proxy/agents/login', [APIKeyController::class, 'proxyLogin']);
+Route::get('/agents', [APIKeyController::class, 'getAgents']);
 
