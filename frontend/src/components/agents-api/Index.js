@@ -147,7 +147,6 @@ const AgentsApi = () => {
   const user_fname = userInfo ? userInfo.user_fname : '';
 //const user_mname = userInfo ? userInfo.user_mname : '';
   const user_lname = userInfo ? userInfo.user_lname : '';
-  const user_email = userInfo ? userInfo.email : '';
   const user_profile_path = userInfo ? userInfo.profile_path : '';
 
   //Functions
@@ -199,7 +198,7 @@ const AgentsApi = () => {
       const data = response.data;
       console.log(data);
     } catch(e) {
-      console.log('error: ', e);
+      setSnackbar({...snackbar, open: true, severityAlert: 'error', message: e});
     } finally {
       setLoading(false);
     }
@@ -216,9 +215,8 @@ const AgentsApi = () => {
       });
       const data = response.data;
       setTickets(data);
-      console.log(data);
     } catch(e) {
-      console.log('error: ', e);
+      setSnackbar({...snackbar, open: true, severityAlert: 'error', message: e});
     } finally {
       setLoading(false);
     }
