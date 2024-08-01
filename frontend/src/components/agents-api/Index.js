@@ -112,6 +112,10 @@ const AgentsApi = () => {
       label: "license id"
     },
     {
+      name: "fullname",
+      label: "fullname"
+    },
+    {
       name: "first_name",
       label: "first name"
     },
@@ -124,8 +128,24 @@ const AgentsApi = () => {
       label: "last name"
     },
     {
+      name: "agent_type",
+      label: "agent type"
+    },
+    {
+      name: "license_type",
+      label: "license type"
+    },
+    {
+      name: "license_date_issued",
+      label: "license date issued"
+    },
+    {
       name: "license_expiration_date",
       label: "license expiration date"
+    },
+    {
+      name: "company_name",
+      label: "company name"
     }
   ];
 
