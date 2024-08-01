@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\APIKeyController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,4 +31,7 @@ Route::post('/user', [UserController::class, 'getUserByToken']);
 Route::post('/user/upload', [UserController::class, 'uploadProfile']);
 Route::post('/user/update', [UserController::class, 'updateProfile']);
 Route::post('/helpdesk/ticket', [TicketController::class, 'getTicket']);
+Route::post('/agent/key', [APIKeyController::class, 'getApiKey']);
+Route::post('/proxy/agents/login', [APIKeyController::class, 'proxyLogin']);
+Route::post('/agents', [APIKeyController::class, 'getAgents']);
 

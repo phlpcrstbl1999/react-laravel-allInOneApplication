@@ -7,7 +7,7 @@ const Datatable = ({ title, data, columns}) => {
     selectableRows: 'none',
     elevation: 0,
     footer: true,
-    rowsPerPage: 5,
+    rowsPerPage: 10,
     rowsPerPageOptions: [5,10,20,50],
     responsive: 'standard'
   };

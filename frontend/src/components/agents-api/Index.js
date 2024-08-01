@@ -31,6 +31,7 @@ import axios from 'axios';
 import CryptoJS from 'crypto-js';
 import ApiRoundedIcon from '@mui/icons-material/ApiRounded';
 import Datatable from '../common/Datatable/Datatable';
+import BasicSnackbar from '../common/Snackbar/BasicSnackbar';
 
 const drawerWidth = 240;
 
@@ -107,25 +108,24 @@ const AgentsApi = () => {
   const [tickets, setTickets] = useState([]);
   const columns = [
     {
-      name: "ticket_id",
+      name: "license_id",
       label: "license id"
     },
     {
-      name: "type",
-      label: "agent type"
+      name: "first_name",
+      label: "first name"
     },
     {
-      name: "description",
-      label: "full name"
+      name: "middle_name",
+      label: "middle name"
     },
     {
-      name: "priority",
+      name: "last_name",
+      label: "last name"
     },
     {
-      name: "status",
-    },
-    {
-      name: "created_at",
+      name: "license_expiration_date",
+      label: "license expiration date"
     }
   ];
 
@@ -145,12 +145,84 @@ const AgentsApi = () => {
     profile_path: ''
   });
   const user_fname = userInfo ? userInfo.user_fname : '';
-//   const user_mname = userInfo ? userInfo.user_mname : '';
+//const user_mname = userInfo ? userInfo.user_mname : '';
   const user_lname = userInfo ? userInfo.user_lname : '';
   const user_email = userInfo ? userInfo.email : '';
   const user_profile_path = userInfo ? userInfo.profile_path : '';
 
   //Functions
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    vertical: 'top',
+    horizontal: 'right', 
+    severityAlert: '',
+    variantAlert: 'filled',
+    message: ''
+  });
+  const handleCloseSnackbar = () => {
+    setSnackbar({...snackbar, open: false});
+  };
+  const handleAuthorize = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post('http://192.20.4.92:8000/api/proxy/agents/login', {}, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }
+      });
+      if (response.data && response.data.access_token) {
+        const updatedApi = {
+          name: 'accessToken',
+          key: response.data.access_token
+        };
+        await sendApiKey(updatedApi);
+      } else {
+        setSnackbar({...snackbar, open: true, severityAlert: 'error', message: response.data});
+      }
+    } catch(e) {
+      if (e.response) {
+        console.error('Error response:', e.response.data);
+        console.error('HTTP Code:', e.response.status);
+      } else {
+        console.error('Error:', e.message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const sendApiKey = async (updatedApi) => {
+    try {
+      setLoading(true);
+      const response = await axios.post('http://192.20.4.92:8000/api/agent/key', updatedApi);
+      const data = response.data;
+      console.log(data);
+    } catch(e) {
+      console.log('error: ', e);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const handleGenerate = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post('http://192.20.4.92:8000/api/agents', {}, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }
+      });
+      const data = response.data;
+      setTickets(data);
+      console.log(data);
+    } catch(e) {
+      console.log('error: ', e);
+    } finally {
+      setLoading(false);
+    }
+  }
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -176,11 +248,10 @@ const AgentsApi = () => {
     }, 1000); 
   }
   useEffect(() => {
-    setToken(localStorage.getItem('loginToken'));
+    setToken(localStorage.getItem('loginToken')); 
     const fetchUserData = async () => {
       try {
         setLoading(true);
-        //getting user info
         const cachedData = localStorage.getItem('userInfo');
         if (cachedData) {
           const decryptedData = CryptoJS.AES.decrypt(cachedData, 'secret-key').toString(CryptoJS.enc.Utf8);
@@ -204,25 +275,6 @@ const AgentsApi = () => {
       setUserInfo(null); // Reset user info if token is not available
     }
   }, [token]);
-  
-  useEffect(() => {
-    const fetchTickets = async () => {
-      if (user_email) {
-        try {
-          setLoading(true);
-          const ticketResponse = await axios.post('http://192.20.4.92:8000/api/helpdesk/ticket', { email: user_email });
-          const ticketData = ticketResponse.data;
-          setTickets(ticketData);
-          console.log(ticketData);
-        } catch(e) {
-          console.log('error: ', e);
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
-    fetchTickets();
-  }, [user_email]);
   return (
     <Box sx={{ display: 'flex' }}>
       {loading === true ? <BasicProgress /> : null} 
@@ -365,13 +417,27 @@ const AgentsApi = () => {
             <BasicCard name={"IC Licensed Insurance Agents API"} />    
           </Grid>
         </Grid>
-
+        <Grid container>
+              <Grid item xs={12} sx={{display: 'flex', justifyContent: 'right'}}>
+              <Button variant="contained" sx={{marginRight: '10px'}} onClick={handleAuthorize}>Authorize</Button>
+              <Button variant="contained" sx={{marginRight: '10px'}} color="success" onClick={handleGenerate}>Generate</Button>
+          </Grid>
+          </Grid>
           <Grid container>
               <Grid item xs={12}>
               <Datatable title="Agents" data={tickets} columns={columns}/>
             </Grid>
           </Grid>
       </Box>
+      <BasicSnackbar
+        vertical={snackbar.vertical} 
+        horizontal={snackbar.horizontal} 
+        open={snackbar.open} 
+        close={handleCloseSnackbar} 
+        severityAlert={snackbar.severityAlert} 
+        variantAlert={snackbar.variantAlert} 
+        message={snackbar.message}
+      />
     </Box>
   );
 }
