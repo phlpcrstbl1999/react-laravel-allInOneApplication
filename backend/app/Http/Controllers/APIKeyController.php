@@ -27,9 +27,9 @@ class APIKeyController extends Controller
 }
 
 public function proxyLogin() {
-        $apiUrl = 'https://staging.insurance.gov.ph/agents/login';
-        $companyWebsite = 'https://philfirstinsurance.com.ph';
-        $publicIP = '192.250.235.49';
+        $apiUrl = env('API_LOGIN_URL');
+        $companyWebsite = env('COMPANY_WEBSITE');
+        $publicIP = env('PUBLIC_IP');
 
         $data = [
             'hmac_email' => env('HMAC_EMAIL'),
@@ -57,9 +57,9 @@ public function proxyLogin() {
     }
 
     public function getAgents() {
-        $apiUrl = 'https://staging.insurance.gov.ph/agents/company/agents';
-        $companyWebsite = 'https://philfirstinsurance.com.ph';
-        $publicIP = '192.250.235.49';
+        $apiUrl = env('API_GET_AGENT_URL');
+        $companyWebsite = env('COMPANY_WEBSITE');
+        $publicIP = env('PUBLIC_IP');
         $apikey = Api_key::where('name', 'accessToken')->first();
         $accessToken = $apikey->value;
         try {
