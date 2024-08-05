@@ -217,6 +217,7 @@ const AgentsApi = () => {
       const response = await axios.post('http://192.20.4.92:8000/api/agent/key', updatedApi);
       const data = response.data;
       console.log(data);
+      setSnackbar({...snackbar, open: true, severityAlert: 'success', message: 'Authorization uccessful'});
     } catch(e) {
       setSnackbar({...snackbar, open: true, severityAlert: 'error', message: e});
     } finally {
@@ -235,6 +236,7 @@ const AgentsApi = () => {
       });
       const data = response.data;
       setTickets(data);
+      setSnackbar({...snackbar, open: true, severityAlert: 'success', message: 'Data fetched successfully'});
     } catch(e) {
       setSnackbar({...snackbar, open: true, severityAlert: 'error', message: e});
     } finally {
