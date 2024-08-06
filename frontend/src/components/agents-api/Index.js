@@ -238,7 +238,7 @@ const AgentsApi = () => {
       setTickets(data);
       setSnackbar({...snackbar, open: true, severityAlert: 'success', message: 'Data fetched successfully'});
     } catch(e) {
-      
+      setSnackbar({...snackbar, open: true, severityAlert: 'error', message: e});
     } finally {
       setLoading(false);
     }
