@@ -228,17 +228,12 @@ const AgentsApi = () => {
   const handleGenerate = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://192.20.4.92:8000/api/agents', {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }
-      });
+      const response = await axios.get('http://192.20.4.92:8000/api/agents');
       const data = response.data;
       setTickets(data);
       setSnackbar({...snackbar, open: true, severityAlert: 'success', message: 'Data fetched successfully'});
     } catch(e) {
-      setSnackbar({...snackbar, open: true, severityAlert: 'error', message: e});
+      setSnackbar({...snackbar, open: true, severityAlert: 'error', message: 'Unautorized'});
     } finally {
       setLoading(false);
     }

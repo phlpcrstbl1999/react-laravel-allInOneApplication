@@ -73,12 +73,12 @@ public function proxyLogin() {
                 'X-Forwarded-For' => $publicIP,
             ])->get($apiUrl);
 
-        if ($response->status() === 401) {
-            Log::error('Invalid access token');
-            return response()->json([
-                'error' => 'Invalid access token'
-            ], 401);
-        }
+            if ($response->status() === 401 || stripos($response->body(), 'Unauthorized') !== false) {
+                Log::error('Unauthorized access');
+                return response()->json([
+                    'error' => 'Unauthorized access'
+                ], 401);
+            }
             return $response->json();
         } catch (\Exception $e) {
             return response()->json([
