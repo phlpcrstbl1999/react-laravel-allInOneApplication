@@ -73,12 +73,12 @@ public function proxyLogin() {
                 'X-Forwarded-For' => $publicIP,
             ])->get($apiUrl);
 
-            if ($response->status() === 404) {
-                Log::error('Unable to show agent details');
-                return response()->json([
-                    'error' => 'Unable to show agent details'
-                ], 404);
-            }
+        if ($response->status() === 401) {
+            Log::error('Invalid access token');
+            return response()->json([
+                'error' => 'Invalid access token'
+            ], 401);
+        }
             return $response->json();
         } catch (\Exception $e) {
             return response()->json([
