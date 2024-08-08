@@ -280,7 +280,6 @@ const Helpdesk = () => {
           const ticketResponse = await axios.post('http://192.20.4.92:8000/api/helpdesk/ticket', { email: user_email });
           const ticketData = ticketResponse.data;
           setTickets(ticketData);
-          console.log(ticketData);
         } catch(e) {
           console.log('error: ', e);
         } finally {
@@ -452,16 +451,15 @@ const Helpdesk = () => {
             closeModal={handleCloseModal}
             modalTitle={"Create"}
           />
-      
-          <Tabs value={value} onChange={handleChange} aria-label="lab API tabs example" scrollButtons="auto" variant="scrollable">
-            <Tab icon={<FolderSpecialRoundedIcon />} iconPosition="start" label="All Tickets" {...a11yProps(0)} />
-            <Tab icon={<MarkEmailUnreadRoundedIcon />} iconPosition="start" label="New" {...a11yProps(1)} />
-            <Tab icon={<MarkunreadRoundedIcon />} iconPosition="start" label="On-Going" {...a11yProps(2)} />
-            <Tab icon={<MarkEmailReadRoundedIcon />} iconPosition="start" label="Resolved" {...a11yProps(3)} />
-            <div style={{display: 'flex', justifyContent:'right', alignItems: 'center', width: '100%'}}>
-              <Button onClick={handleOpenModal} sx={{height: '50%'}} variant="contained">Create</Button>
-            </div>
-          </Tabs>
+          <div style={{display: 'flex', justifyContent:'space-between', alignItems: 'center', width: '100%'}}>
+            <Tabs value={value} onChange={handleChange} aria-label="lab API tabs example" scrollButtons="auto" variant="scrollable">
+              <Tab icon={<FolderSpecialRoundedIcon />} iconPosition="start" label="All Tickets" {...a11yProps(0)} />
+              <Tab icon={<MarkEmailUnreadRoundedIcon />} iconPosition="start" label="New" {...a11yProps(1)} />
+              <Tab icon={<MarkunreadRoundedIcon />} iconPosition="start" label="On-Going" {...a11yProps(2)} />
+              <Tab icon={<MarkEmailReadRoundedIcon />} iconPosition="start" label="Resolved" {...a11yProps(3)} />
+            </Tabs>
+            <Button onClick={handleOpenModal} sx={{height: '50%'}} variant="contained">Create</Button>
+          </div>
                   
         </Box>
         <CustomTabPanel value={value} index={0}>
