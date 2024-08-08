@@ -2,15 +2,23 @@
 
 namespace App\Http\Controllers;
 use App\Models\Ticket;
+use App\Services\TIcketService;
 use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
-    public function getTicket(Request $request) {
-        $tickets = Ticket::where('email', $request->email)->get();
-        if ($tickets->isEmpty()) {
-            return response()->json(['message' => 'No ticket found'], 404);
+    protected $ticketService;
+
+    public function __construct(TIcketService $ticketService)
+    {
+        $this->ticketService = $ticketService;
+    }
+    public function getTicket(Request $request)
+    {
+        $response = $this->ticketService->getTicket($request->email);
+        if ($response['status'] === 404) {
+            return response()->json(['message' => $response['message']], $response['status']);
         }
-        return response()->json($tickets, 200);
+        return response()->json($response['tickets'], $response['status']);
     }
 }
