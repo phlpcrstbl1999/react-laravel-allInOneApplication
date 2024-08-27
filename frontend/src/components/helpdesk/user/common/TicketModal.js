@@ -16,17 +16,26 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: '75%',
-    height: '96%',
+    height: 'auto',
     bgcolor: 'background.paper',
     border: '1px solid #000',
     boxShadow: 24,
     p: 2,
   };
 
-const TicketModal = ({openModal, closeModal, modalTitle}) => {
+const TicketModal = ({openModal, closeModal, modalTitle, empName, empEmail}) => {
   const [category, setCategory] = useState('');
-  const handleChange = (event) => {
+  const [priority, setPriority] = useState('');
+  const handleChangeCategory = (event) => {
     setCategory(event.target.value);
+  };
+
+  const handleChangePriority = (event) => {
+    setPriority(event.target.value);
+  };
+  
+  const handleCreateTicket = () => {
+    alert('wew');
   };
     return (
         <Modal
@@ -40,32 +49,34 @@ const TicketModal = ({openModal, closeModal, modalTitle}) => {
               {modalTitle}
             </Typography>
             <br></br>
-            <Grid container sx={{mb: 2}} spacing={2}>
+            {/* <Grid container sx={{mb: 2}} spacing={2}>
               <Grid item xs={12} sm={6} lg={6} >
               <label>Name</label>
                 <TextField
-                  required
+                  disabled
                   id="standard-required"
                   variant="outlined"
                   sx={{width: '100%'}}
+                  value={empName}
                 />
               </Grid>
               <Grid item xs={12} sm={6} lg={6} >
                 <label>Email Id</label>
                 <TextField
-                  required
+                  disabled
                   id="standard-required"
                   variant="outlined"
                   sx={{width: '100%'}}
+                  value={empEmail}
                 />
               </Grid>
-            </Grid>
+            </Grid> */}
             <Grid container sx={{mb: 2}} spacing={2}>
               <Grid item xs={12} sm={6} lg={6} >
               <label>Category</label>
               <Select
                 value={category}
-                onChange={handleChange}
+                onChange={handleChangeCategory}
                 displayEmpty
                 inputProps={{ 'aria-label': 'Without label' }}
                 sx={{width: '100%'}}
@@ -83,8 +94,8 @@ const TicketModal = ({openModal, closeModal, modalTitle}) => {
               <Grid item xs={12} sm={6} lg={6} >
                   <label>Priority</label>
                   <Select
-                    value={category}
-                    onChange={handleChange}
+                    value={priority}
+                    onChange={handleChangePriority}
                     displayEmpty
                     inputProps={{ 'aria-label': 'Without label' }}
                     sx={{width: '100%'}}
@@ -118,13 +129,14 @@ const TicketModal = ({openModal, closeModal, modalTitle}) => {
                     label="attachment"
                     type="file"
                     sx={{width: '100%'}}
+                    inputProps={{ multiple: true }}
                   />
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={12} sx={{display: 'flex', gap: 2, width: '100%', justifyContent: 'right'}}>
                   <Button variant="contained" color="error" onClick={closeModal}>Cancel</Button>
-                  <Button variant="contained">Create</Button>
+                  <Button variant="contained" onClick={handleCreateTicket}>Create</Button>
                 </Grid>
               </Grid> 
         </Box>

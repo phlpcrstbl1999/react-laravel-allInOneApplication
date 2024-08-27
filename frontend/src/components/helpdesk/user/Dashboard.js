@@ -449,7 +449,9 @@ const Helpdesk = () => {
           <TicketModal
             openModal={openModal}
             closeModal={handleCloseModal}
-            modalTitle={"Create"}
+            modalTitle={"Create Ticket"}
+            empName={user_fname + ' ' + user_lname}
+            empEmail={user_email}
           />
           <div style={{display: 'flex', justifyContent:'space-between', alignItems: 'center', width: '100%'}}>
             <Tabs value={value} onChange={handleChange} aria-label="lab API tabs example" scrollButtons="auto" variant="scrollable">
